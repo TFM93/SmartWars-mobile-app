@@ -6,26 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Fragment_Pessoal.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Fragment_Pessoal#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Fragment_Pessoal extends Fragment {
-
-
-
-    LinearLayout chartLyt;
-    boolean flag=true;
-    private byte[] allbytes = new byte[2500];
-    int count=0;
 
 
     public static Fragment_Pessoal newInstance() {
@@ -56,7 +39,7 @@ public class Fragment_Pessoal extends Fragment {
     public interface DataListener {
         public void updateBatteryText(int value);
         public void updatePulseText(int value);
-        public byte[] getAllBytes();
+        //public byte[] getAllBytes();
     }
 
 
@@ -94,10 +77,7 @@ public class Fragment_Pessoal extends Fragment {
                 }
 
 
-                @Override
-                public byte[] getAllBytes() {
-                    return allbytes;
-                }
+
             });
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()

@@ -8,18 +8,60 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="pt.ua.smartWars.Gaming$PlaceholderFragment">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="199dp"
-        tools:context=".GoogleMaps"/>
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="199dp"
+            tools:context=".GoogleMaps"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_height="fill_parent"
+                android:background="@color/dark_yellow"
+                android:text="FOLLOW ME"
+                android:layout_marginRight="5dp" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:background="@color/dark_green"
+                android:text="GO GO GO"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:background="@color/dark_red"
+                android:layout_weight="1"
+                android:text="HELP ME"
+                android:layout_marginLeft="5dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>
