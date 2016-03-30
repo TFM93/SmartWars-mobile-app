@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">PaintHealth</string>
+    <string name="action_settings">Settings</string>
+    <string name="facebook_app_id">564065553762255</string>
+    <string name="google_maps_key">AIzaSyADfVSQ318DdkUdCaSz9ouB5WYifnVTBxU</string>
+    <string name="icon_heart">&#xf004;</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
