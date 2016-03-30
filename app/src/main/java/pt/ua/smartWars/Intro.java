@@ -7,17 +7,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.batch.android.Batch;
+import com.batch.android.Config;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.FacebookSdk;
 import com.firebase.client.Firebase;
 import com.google.android.gms.maps.GoogleMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import userData.userInfo;
 
 public class Intro extends AppCompatActivity {
 
 
     @InjectView(R.id.join_team)
     Button _joinTeam;
+
 
     //paintmonitor
 
@@ -36,7 +43,9 @@ public class Intro extends AppCompatActivity {
     private String userLog;
     private String pathToFirebase;
     private GoogleMap mMap;
-
+    private com.facebook.login.widget.LoginButton loginButton;
+    private Button btn_logout;
+    private AccessTokenTracker accessTokenTracker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +56,43 @@ public class Intro extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         ButterKnife.inject(this);
 
+        //facebook sdk init
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
-        //Batch.Push.setGCMSenderId("40170863066");
+        loginButton = (com.facebook.login.widget.LoginButton)findViewById(R.id.login_buttonIntro);
+        btn_logout = (Button)findViewById(R.id.logout);
 
-        //Batch.setConfig(new Config("DEV56D70ED21459D8880EF3180D288"));
+        if(userInfo.getInstance().getLoggedInWith().equals("FACEBOOK")) {
+            accessTokenTracker = new AccessTokenTracker() {
+                @Override
+                protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken newAccessToken) {
+                    if (newAccessToken == null )//not authenticated
+                    {
+                        userInfo.getInstance().setLoggedInWith("NONE");
+                        userInfo.getInstance().setLoggedIn(false);
+                        Intent i = new Intent(Intro.this, Auth.class);
+                        startActivity(i);
+                    }
+                }
+            };
+            loginButton.setVisibility(View.VISIBLE);
+            btn_logout.setVisibility(View.GONE);
+        }
+        else
+        {
+            loginButton.setVisibility(View.GONE);
+            btn_logout.setVisibility(View.VISIBLE);
+        }
 
+        btn_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userInfo.getInstance().setLoggedInWith("NONE");
+                userInfo.getInstance().setLoggedIn(false);
+                Intent i = new Intent(Intro.this, Auth.class);
+                startActivity(i);
+            }
+        });
 
         _joinTeam.setOnClickListener(new View.OnClickListener() {
 
@@ -66,6 +107,14 @@ public class Intro extends AppCompatActivity {
 
 
 
+        //batch setup config
+        Batch.Push.setGCMSenderId("40170863066");
+        Batch.setConfig(new Config("DEV56D70ED21459D8880EF3180D288"));
+
+
+
+
+
         // Email do user com o login feito
         Firebase myFirebaseRef = new Firebase("https://paintmonitor.firebaseio.com");
         userLog = myFirebaseRef.getAuth().getUid();
@@ -74,7 +123,7 @@ public class Intro extends AppCompatActivity {
         //final Button button3 = (Button) findViewById(R.id.button3);
         final TextView tv1 = (TextView) findViewById(R.id.textView);
 
-        tv1.setText(myFirebaseRef.getAuth().getProviderData().get("email").toString());
+        //tv1.setText(myFirebaseRef.getAuth().getProviderData().get("email").toString());
 
 
         //final LinearLayout LL1 = (LinearLayout) findViewById(R.id.linearLayout1);

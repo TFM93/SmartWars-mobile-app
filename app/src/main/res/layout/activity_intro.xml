@@ -39,11 +39,21 @@
                 android:id="@+id/logout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
+
                 android:padding="12dp"
                 android:text="Logout"
                 android:layout_gravity="center" />
+
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_buttonIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignTop="@+id/textView2"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
         </LinearLayout>
 
         <LinearLayout
