@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,7 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.EditText;
+
+import com.kyleduo.switchbutton.SwitchButton;
 
 import Bio.Library.namespace.BioLib;
 
@@ -85,20 +88,57 @@ public class Gaming extends AppCompatActivity {
                     dataFreq++;
                     if(dataFreq==40) {
                         dataFreq=0;
-                        System.out.print(out.pulse);
-                        // mDataListener.updateBatteryText(out.battery);
-                        //mDataListener.updatePulseText(out.pulse);
+                        //new SendtoDBTask().execute("1", out.pulse + "", user.getId() + "");
+                        mDataListener.updateBatteryText(out.battery);
+                        mDataListener.updatePulseText(out.pulse);
                     }
-                    break;
-                case BioLib.MESSAGE_ECG_STREAM:
-                    byte[][] ecg = (byte[][]) msg.obj;
-                    byte[] ecg_data = ecg[0];
-                    //new SendtoDBTask().execute("2", Arrays.toString(ecg_data), user.getId()+"");
-
                     break;
             }
         }
     };
+
+
+
+    public void changeToOn(View view){
+        SwitchButton device_switch = (SwitchButton) findViewById(R.id.device_switch);
+
+        EditText address_dev = (EditText) findViewById(R.id.add_dev);
+
+        String address=address_dev.getText().toString();
+        System.out.println(address);
+
+
+        if(!device_switch.isChecked()) {
+            try {
+                lib = new BioLib(this, dataHandler);
+                lib.Connect(address, 5);
+
+            }catch (Exception e) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Connection failed!")
+                        .setNeutralButton("OK", null);
+                builder.create();
+                builder.show();
+
+                device_switch.setChecked(false);
+            }
+        }
+        else {
+            try {
+                lib.Disconnect();
+
+            } catch (Exception e) {
+                Log.d("vital", e.toString());
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Disconnecting isn't possible!")
+                        .setNeutralButton("OK", null);
+                builder.create();
+                builder.show();
+
+            }
+        }
+    }
 
 
     @Override
@@ -161,8 +201,8 @@ public class Gaming extends AppCompatActivity {
 
             View rootView = inflater.inflate(R.layout.fragment_pessoal, container, false);
 
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
