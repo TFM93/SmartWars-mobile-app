@@ -81,7 +81,9 @@
         <activity android:name=".account.Auth" />
         <activity android:name=".account.Register" />
         <activity android:name=".menus.Team" />
+        <activity android:name=".menus.NewGame" />
         <activity android:name=".playing.Gaming" />
+
     </application>
 
 </manifest>
