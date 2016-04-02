@@ -1,4 +1,4 @@
-package pt.ua.smartWars;
+package pt.ua.smartWars.playing;
 
 import android.app.AlertDialog;
 import android.content.Context;

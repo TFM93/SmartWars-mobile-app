@@ -1,4 +1,4 @@
-package pt.ua.smartWars;
+package pt.ua.smartWars.menus;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +17,8 @@ import com.google.android.gms.maps.GoogleMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import pt.ua.smartWars.account.Auth;
+import pt.ua.smartWars.R;
 import userData.userInfo;
 
 public class Intro extends AppCompatActivity {
@@ -24,6 +26,8 @@ public class Intro extends AppCompatActivity {
 
     @InjectView(R.id.join_team)
     Button _joinTeam;
+    @InjectView(R.id.create_game)
+    Button _createMatch;
 
 
     //paintmonitor
@@ -105,6 +109,16 @@ public class Intro extends AppCompatActivity {
             }
         });
 
+        _createMatch.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Start the Signup activity
+                Intent i = new Intent(Intro.this, NewGame.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
 
         //batch setup config

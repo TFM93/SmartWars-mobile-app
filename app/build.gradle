@@ -57,4 +57,5 @@ dependencies {
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile 'com.github.michaelye.easydialog:easydialog:1.1'
     compile files('libs/biolib.sdk.jar')
+    compile files('libs/zxing-2.1.jar')
 }
