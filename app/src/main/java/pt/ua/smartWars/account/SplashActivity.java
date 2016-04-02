@@ -1,4 +1,4 @@
-package pt.ua.smartWars;
+package pt.ua.smartWars.account;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+
+import pt.ua.smartWars.R;
 
 public class SplashActivity extends AppCompatActivity {
 

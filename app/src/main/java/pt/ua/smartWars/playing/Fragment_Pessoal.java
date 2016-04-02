@@ -1,4 +1,4 @@
-package pt.ua.smartWars;
+package pt.ua.smartWars.playing;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import pt.ua.smartWars.R;
 
 public class Fragment_Pessoal extends Fragment {
 

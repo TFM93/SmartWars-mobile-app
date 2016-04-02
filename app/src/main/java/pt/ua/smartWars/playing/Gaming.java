@@ -1,4 +1,4 @@
-package pt.ua.smartWars;
+package pt.ua.smartWars.playing;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,16 +12,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.kyleduo.switchbutton.SwitchButton;
 
 import Bio.Library.namespace.BioLib;
+import pt.ua.smartWars.R;
 
 public class Gaming extends AppCompatActivity {
 
@@ -194,6 +193,7 @@ public class Gaming extends AppCompatActivity {
         }
 
 
+        /*
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -205,7 +205,9 @@ public class Gaming extends AppCompatActivity {
             //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+        */
     }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
