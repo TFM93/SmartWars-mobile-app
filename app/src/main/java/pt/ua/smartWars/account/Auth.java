@@ -1,4 +1,4 @@
-package pt.ua.smartWars;
+package pt.ua.smartWars.account;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -31,6 +31,8 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import pt.ua.smartWars.menus.Intro;
+import pt.ua.smartWars.R;
 import userData.userInfo;
 
 public class Auth extends AppCompatActivity {

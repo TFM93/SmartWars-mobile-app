@@ -9,12 +9,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
 
     <permission
         android:name="pt.ua.smartWars.permission.C2D_MESSAGE"
@@ -42,7 +39,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name="pt.ua.smartWars.Intro"
+            android:name=".menus.Intro"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -70,7 +67,7 @@
         </receiver>
 
         <activity
-            android:name="pt.ua.smartWars.SplashActivity"
+            android:name=".account.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -81,10 +78,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="pt.ua.smartWars.Auth" />
-        <activity android:name="pt.ua.smartWars.Register" />
-        <activity android:name="pt.ua.smartWars.Team" />
-        <activity android:name="pt.ua.smartWars.Gaming"></activity>
+        <activity android:name=".account.Auth" />
+        <activity android:name=".account.Register" />
+        <activity android:name=".menus.Team" />
+        <activity android:name=".menus.NewGame" />
+        <activity android:name=".playing.Gaming" />
+
     </application>
 
 </manifest>

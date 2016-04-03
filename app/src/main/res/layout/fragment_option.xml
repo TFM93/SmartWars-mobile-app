@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="pt.ua.smartWars.Gaming$PlaceholderFragment">
+    tools:context=".playing.Gaming$PlaceholderFragment">
 
 
     <LinearLayout
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="Connect"
-                android:textSize="30dp" />
+                android:textSize="20dp" />
 
             <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/device_switch"
