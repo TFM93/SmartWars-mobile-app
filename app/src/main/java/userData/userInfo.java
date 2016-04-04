@@ -15,11 +15,13 @@ public class userInfo {
     private boolean loggedIn;//loggedIn?
     private logginTypes loggedInWith;//logged in with what tech?
     private Firebase ref;
+    private String uid;
 
     private userInfo(){
         this.loggedIn=false;
         this.loggedInWith= logginTypes.NONE;
         this.ref= new Firebase("https://paintmonitor.firebaseio.com");
+        this.uid = null;
     }
 
 
@@ -56,5 +58,13 @@ public class userInfo {
             nInstance= new userInfo();
         }
         return nInstance;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

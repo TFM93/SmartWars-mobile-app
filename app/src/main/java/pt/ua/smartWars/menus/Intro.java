@@ -132,6 +132,7 @@ public class Intro extends AppCompatActivity {
         // Email do user com o login feito
         Firebase myFirebaseRef = new Firebase("https://paintmonitor.firebaseio.com");
         userLog = myFirebaseRef.getAuth().getUid();
+
         //final Button button = (Button) findViewById(R.id.button);
         //final Button button2 = (Button) findViewById(R.id.button2);
         //final Button button3 = (Button) findViewById(R.id.button3);
