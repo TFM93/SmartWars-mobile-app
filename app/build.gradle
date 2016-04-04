@@ -58,4 +58,5 @@ dependencies {
     compile 'com.github.michaelye.easydialog:easydialog:1.1'
     compile files('libs/biolib.sdk.jar')
     compile files('libs/zxing-2.1.jar')
+    compile 'com.batch.android:batch-sdk:1.5+'
 }

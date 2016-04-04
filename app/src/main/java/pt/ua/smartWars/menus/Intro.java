@@ -7,8 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.batch.android.Batch;
-import com.batch.android.Config;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
@@ -17,8 +15,8 @@ import com.google.android.gms.maps.GoogleMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import pt.ua.smartWars.account.Auth;
 import pt.ua.smartWars.R;
+import pt.ua.smartWars.account.Auth;
 import userData.userInfo;
 
 public class Intro extends AppCompatActivity {
@@ -122,8 +120,8 @@ public class Intro extends AppCompatActivity {
 
 
         //batch setup config
-        Batch.Push.setGCMSenderId("40170863066");
-        Batch.setConfig(new Config("DEV56D70ED21459D8880EF3180D288"));
+        //Batch.Push.setGCMSenderId("40170863066");
+        //Batch.setConfig(new Config("DEV56D70ED21459D8880EF3180D288"));
 
 
 
