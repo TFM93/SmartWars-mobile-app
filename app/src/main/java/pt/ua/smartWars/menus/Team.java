@@ -127,7 +127,7 @@ public class Team extends AppCompatActivity{
                 Intent i = new Intent(Team.this, Gaming.class);
 
                 startActivity(i);
-                finish();
+                //finish();
             }
         });
 
