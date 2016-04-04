@@ -12,7 +12,7 @@ import pt.ua.smartWars.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Fragment_Option.OnFragmentInteractionListener} interface
+ * {link Fragment_Option.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link Fragment_Option#newInstance} factory method to
  * create an instance of this fragment.
@@ -31,6 +31,8 @@ public class Fragment_Option extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
     }
 

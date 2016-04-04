@@ -54,8 +54,13 @@ public class Gaming extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaming);
 
-        Batch.setConfig(new Config("DEV570227BD6089B76F51821B1A4BE"));
+        Batch.setConfig(new Config("AIzaSyAvu6GvhH1RL1hgZyuA6MUBw9P8kvIwD0o"));
+
         Batch.Push.setGCMSenderId("276480424584");
+        Batch.Push.setSmallIconResourceId(R.drawable.logo);
+
+        //Batch.setConfig(new Config("DEV570227BD6089B76F51821B1A4BE"));
+        //Batch.Push.setGCMSenderId("276480424584");
         // Registration id = APA91bHB59ktbObkm4up1Y6hYlbYmnd42Fjx6ALDwjuNzmysmuZUF0OIyZjLLsir9wRww3PdoMqQ8ZWoiogRvZ5cJjoXTdmbxeGeYwEvILKvpwb5F4ZUX43eMpJjCZFNfCfu1CNU8a2d
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

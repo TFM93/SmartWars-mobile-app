@@ -237,7 +237,7 @@ public class Auth extends AppCompatActivity {
         _loginButton.setEnabled(true);
         Intent myIntent = new Intent(this, Intro.class);
         Auth.this.startActivity(myIntent);
-        //finish();
+        finish();
     }
 
     public void onLoginFailed() {

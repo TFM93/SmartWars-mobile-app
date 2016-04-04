@@ -103,7 +103,6 @@ public class Intro extends AppCompatActivity {
                 // Start the Signup activity
                 Intent i = new Intent(Intro.this, Team.class);
                 startActivity(i);
-                finish();
             }
         });
 
@@ -114,7 +113,6 @@ public class Intro extends AppCompatActivity {
                 // Start the Signup activity
                 Intent i = new Intent(Intro.this, NewGame.class);
                 startActivity(i);
-                finish();
             }
         });
 
