@@ -92,7 +92,7 @@ public class Auth extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    login();
+                    loginMP();
                 }
             });
 
@@ -144,6 +144,7 @@ public class Auth extends AppCompatActivity {
                         userInfo.getInstance().getRef().child("users").child(authData.getUid()).setValue(map);
                         userInfo.getInstance().setLoggedIn(true);
                         userInfo.getInstance().setLoggedInWith("MAILPW");
+                        userInfo.getInstance().setUid(authData.getUid());
 
                         Context context = getApplicationContext();
                         CharSequence text = "LoggedIn successfully";
@@ -290,6 +291,7 @@ public class Auth extends AppCompatActivity {
                                 map.put("displayName", authData.getProviderData().get("displayName").toString());
                             }
                             userInfo.getInstance().getRef().child("users").child(authData.getUid()).setValue(map);
+                            userInfo.getInstance().setUid(authData.getUid());
 
 
                             userInfo.getInstance().setLoggedIn(true);
@@ -307,6 +309,7 @@ public class Auth extends AppCompatActivity {
                             LoginManager.getInstance().logOut();
                             userInfo.getInstance().setLoggedIn(false);
                             userInfo.getInstance().setLoggedInWith("NONE");
+                            userInfo.getInstance().setUid(null);
                             Intent i = new Intent(Auth.this, Auth.class);
                             startActivity(i);
 

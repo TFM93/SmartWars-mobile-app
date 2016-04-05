@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,13 +15,12 @@ import android.widget.LinearLayout;
 
 import com.firebase.client.Firebase;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import pt.ua.smartWars.OnGameData.FirePlayers;
 import pt.ua.smartWars.R;
 import pt.ua.smartWars.playing.Gaming;
+import userData.userInfo;
 
 /**
  * Created by drcc on 22/03/16.
@@ -76,12 +76,14 @@ public class Team extends AppCompatActivity{
                 _imageLogo.setVisibility(View.VISIBLE);
 
 
-                pathToFirebase = "https://paintmonitor.firebaseio.com/games/" + _code_editText.getText();
+                //pathToFirebase = "https://paintmonitor.firebaseio.com/games/" + _code_editText.getText();
+                Log.d("ID",_code_editText.getText().toString());
+                //FirePlayers.getInstance().setMatch_id(_code_editText.getText().toString());
 
 
                 final ImageView iv = (ImageView) findViewById(R.id.imageView);
                 final Animation an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate);
-                final Animation an2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.abc_fade_out);
+                //final Animation an2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.abc_fade_out);
 
                 iv.startAnimation(an);
                 an.setAnimationListener(new Animation.AnimationListener() {
@@ -93,7 +95,7 @@ public class Team extends AppCompatActivity{
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        iv.startAnimation(an2);
+                        iv.startAnimation(an);
                         //finish();
                         //Intent i = new Intent(SplashActivity.this, Auth.class);
                         //startActivity(i);
@@ -114,15 +116,16 @@ public class Team extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Firebase myFirebaseRef = new Firebase(pathToFirebase  + "/red");
-                userLog = myFirebaseRef.getAuth().getUid();
-                Firebase postRef = myFirebaseRef.child(userLog);
-                Map<String, Object> coordinates = new HashMap<String, Object>();
-                coordinates.put("heartRate", "85");
-                coordinates.put("lat", 40.6334472);
-                coordinates.put("lng", -8.6524200);
-                postRef.updateChildren(coordinates);
-
+//                Firebase myFirebaseRef = new Firebase(pathToFirebase  + "/red");
+//                userLog = myFirebaseRef.getAuth().getUid();
+//                Firebase postRef = myFirebaseRef.child(userLog);
+//                Map<String, Object> coordinates = new HashMap<String, Object>();
+//                coordinates.put("heartRate", "85");
+//                coordinates.put("lat", 40.6334472);
+//                coordinates.put("lng", -8.6524200);
+//                postRef.updateChildren(coordinates);
+                  FirePlayers.getInstance().setTeam("RED");
+                  addMeToGameFirebase();
                 // Start the Signup activity
                 Intent i = new Intent(Team.this, Gaming.class);
 
@@ -137,14 +140,17 @@ public class Team extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-                Firebase myFirebaseRef = new Firebase(pathToFirebase + "/blue");
-                userLog = myFirebaseRef.getAuth().getUid();
-                Firebase postRef = myFirebaseRef.child(userLog);
-                Map<String, Object> coordinates = new HashMap<String, Object>();
-                coordinates.put("heartRate", "95");
-                coordinates.put("lat", 40.6336472);
-                coordinates.put("lng", -8.6523200);
-                postRef.updateChildren(coordinates);
+//                Firebase myFirebaseRef = new Firebase(pathToFirebase + "/blue");
+//                userLog = myFirebaseRef.getAuth().getUid();
+//                Firebase postRef = myFirebaseRef.child(userLog);
+//                Map<String, Object> coordinates = new HashMap<String, Object>();
+//                coordinates.put("heartRate", "95");
+//                coordinates.put("lat", 40.6336472);
+//                coordinates.put("lng", -8.6523200);
+//                postRef.updateChildren(coordinates);
+                FirePlayers.getInstance().setTeam("BLUE");
+                addMeToGameFirebase();
+
 
                 // Start the Signup activity
                 Intent i = new Intent(Team.this, Gaming.class);
@@ -176,6 +182,14 @@ public class Team extends AppCompatActivity{
             }
         });
 
+    }
+
+    private void addMeToGameFirebase() {
+        Log.d("MATCH_ID",FirePlayers.getInstance().getMatch_id());
+        String path = "https://paintmonitor.firebaseio.com/Game/" +FirePlayers.getInstance().getMatch_id()+"/" +FirePlayers.getInstance().getTeam()+"/";
+        Firebase ref = new Firebase(path);
+        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), 0, 0);
+        ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
     }
 
     @Override

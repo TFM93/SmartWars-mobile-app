@@ -1,6 +1,5 @@
 package pt.ua.smartWars.playing;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.batch.android.Batch;
-import com.batch.android.Config;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import Bio.Library.namespace.BioLib;
@@ -53,15 +50,6 @@ public class Gaming extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaming);
-
-        Batch.setConfig(new Config("AIzaSyAvu6GvhH1RL1hgZyuA6MUBw9P8kvIwD0o"));
-
-        Batch.Push.setGCMSenderId("276480424584");
-        Batch.Push.setSmallIconResourceId(R.drawable.logo);
-
-        //Batch.setConfig(new Config("DEV570227BD6089B76F51821B1A4BE"));
-        //Batch.Push.setGCMSenderId("276480424584");
-        // Registration id = APA91bHB59ktbObkm4up1Y6hYlbYmnd42Fjx6ALDwjuNzmysmuZUF0OIyZjLLsir9wRww3PdoMqQ8ZWoiogRvZ5cJjoXTdmbxeGeYwEvILKvpwb5F4ZUX43eMpJjCZFNfCfu1CNU8a2d
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -263,37 +251,4 @@ public class Gaming extends AppCompatActivity {
             return null;
         }
     }
-
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-
-        Batch.onStart(this);
-    }
-
-    @Override
-    protected void onStop()
-    {
-        Batch.onStop(this);
-
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        Batch.onDestroy(this);
-
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent)
-    {
-        Batch.onNewIntent(this, intent);
-
-        super.onNewIntent(intent);
-    }
-
 }
