@@ -8,9 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import pt.ua.smartWars.OnGameData.FirePlayers;
 import pt.ua.smartWars.R;
-import userData.userInfo;
 
 public class Fragment_Pessoal extends Fragment {
 
@@ -78,7 +76,11 @@ public class Fragment_Pessoal extends Fragment {
                 public void updatePulseText(int value) {
                     TextView pulse = (TextView) getView().findViewById(R.id.pulse);
                     pulse.setText(value + " BPM");
-                    FirePlayers.getInstance().setTeam_hr(userInfo.getInstance().getUid(),value);
+                    if (value>190)
+                        pulse.setTextColor(getResources().getColor(R.color.dark_red));
+                    else
+                        pulse.setTextColor(getResources().getColor(R.color.dark_green));
+
                 }
 
 

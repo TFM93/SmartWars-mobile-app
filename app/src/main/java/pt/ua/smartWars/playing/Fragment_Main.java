@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,7 +91,6 @@ public class Fragment_Main extends Fragment{
                     }
 
                     if (FirePlayers.getInstance().getTeamP()[0] != null) {
-                        Log.d("diogo", FirePlayers.getInstance().getTeamP()[0] + "");
                         m1 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
@@ -100,35 +98,31 @@ public class Fragment_Main extends Fragment{
                     }
 
                     if (FirePlayers.getInstance().getTeamP()[1] != null) {
-                        Log.d("diogo", FirePlayers.getInstance().getTeamP()[1] + "");
                         m2 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
                                 .position(new LatLng(FirePlayers.getInstance().getTeamP()[1].getX(), FirePlayers.getInstance().getTeamP()[1].getY())).title("Player2"));
                     }
                     if (FirePlayers.getInstance().getTeamP()[2] != null) {
-                        Log.d("diogo", FirePlayers.getInstance().getTeamP()[2] + "");
                         m3 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
                                 .position(new LatLng(FirePlayers.getInstance().getTeamP()[2].getX(), FirePlayers.getInstance().getTeamP()[2].getY())).title("Player3"));
                     }
                     if (FirePlayers.getInstance().getTeamP()[3] != null) {
-                        Log.d("diogo", FirePlayers.getInstance().getTeamP()[3] + "");
                         m4 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
                                 .position(new LatLng(FirePlayers.getInstance().getTeamP()[3].getX(), FirePlayers.getInstance().getTeamP()[3].getY())).title("Player4"));
                     }
                     if (FirePlayers.getInstance().getTeamP()[4] != null) {
-                        Log.d("diogo", FirePlayers.getInstance().getTeamP()[4] + "");
                         m5 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
                                 .position(new LatLng(FirePlayers.getInstance().getTeamP()[4].getX(), FirePlayers.getInstance().getTeamP()[4].getY())).title("Player5"));
                     }
 
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(40.633549,-8.652342), 16);
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY()), 16);
                     map.animateCamera(cameraUpdate);
                     map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
