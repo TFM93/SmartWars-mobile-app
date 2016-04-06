@@ -77,7 +77,6 @@ public class Gaming extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         startTimer();
 
-
         //create gps module
         gps = new GPSModule(Gaming.this);
         //retrieve data location
@@ -90,24 +89,36 @@ public class Gaming extends AppCompatActivity {
                 while (po.hasNext()) {
                     Object ops = po.next();
                     DataSnapshot p = (DataSnapshot) ops;
-                    String pId = "";
-                    String x = "";
-                    String y = "";
-                    Iterator s = p.getChildren().iterator();
-                    while (s.hasNext()) {
+                    String pId="";
+                    String x="";
+                    String y="";
+                    String hRate="";
+                    Iterator s= p.getChildren().iterator();
+                    while(s.hasNext())
+                    {
                         Object r = s.next();
                         DataSnapshot sl = (DataSnapshot) r;
-                        if (sl.getKey().equals("pId")) {
-                            pId = sl.getValue().toString();
-                        } else if (sl.getKey().equals("x")) {
-                            x = sl.getValue().toString();
-                        } else if (sl.getKey().equals("y"))
-                            y = sl.getValue().toString();
+                        if(sl.getKey().equals("pId"))
+                        {
+                            pId=sl.getValue().toString();
+                        }
+                        else if(sl.getKey().equals("x"))
+                        {
+                            x=sl.getValue().toString();
+                        }
+                        else if(sl.getKey().equals("y"))
+                            y=sl.getValue().toString();
+
 
 
                     }
-                    //System.out.println(pId + "  x  "+ x + "    y  " + y);
-                    FirePlayers.getInstance().setTeam_pos(pId, Double.parseDouble(x), Double.parseDouble(y));
+                    System.out.println(pId + "  x  "+ x + "    y  " + y + "    hr: " + hRate);
+                    if(hRate.equals("")||hRate.equals("-.-"))
+                    {
+                        hRate="0";
+                    }
+                    FirePlayers.getInstance().setTeam_pos(pId,Double.parseDouble(x),Double.parseDouble(y),Integer.parseInt(hRate));
+                    FirePlayers.getInstance().setTeam_hr(pId,Integer.parseInt(hRate));
                 }
 
 
@@ -162,6 +173,7 @@ public class Gaming extends AppCompatActivity {
                     BioLib.Output out = (BioLib.Output) msg.obj;
                     Log.d("Battery", "" + out.battery);
                     Log.d("Pulse", "" + out.pulse);
+                    FirePlayers.getInstance().setTeam_hr(userInfo.getInstance().getUid(), out.pulse);
                     dataFreq++;
                     if (dataFreq == 40) {
                         dataFreq = 0;
@@ -270,7 +282,7 @@ public class Gaming extends AppCompatActivity {
                         //get coordinates
                         double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
-                        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude);
+                        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude,0);
 
 //                        //show the toast
                         int duration = Toast.LENGTH_SHORT;
@@ -283,11 +295,13 @@ public class Gaming extends AppCompatActivity {
                         ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
 
 
+
                     }
                 });
             }
         };
     }
+
 
 
 //    @Override
@@ -307,6 +321,10 @@ public class Gaming extends AppCompatActivity {
 //        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(new LatLng(m[0].getX(), m[0].getY()), 11.0f);
 //        mMap.animateCamera(yourLocation);
 //    }
+
+
+
+
 
 
 //    private void updateMapMarkers() {
@@ -362,12 +380,13 @@ public class Gaming extends AppCompatActivity {
 //    }
 
 
+
     @Override
-    public void onStop() {
+    public void onStop()
+    {
         stoptimertask();
         super.onStop();
     }
-
     public void startTimer() {
 
         timer = new Timer();
@@ -433,9 +452,10 @@ public class Gaming extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            if (position == 0) {
+            if (position== 0) {
                 return Fragment_Main.newInstance();
-            } else if (position == 1)
+            }
+            else if (position== 1)
                 return Fragment_Pessoal.newInstance();
             else
                 return Fragment_Option.newInstance();

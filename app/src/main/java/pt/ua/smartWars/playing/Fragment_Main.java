@@ -166,6 +166,7 @@ public class Fragment_Main extends Fragment{
 
     public void callAsyncTask(){
         final Handler handler = new Handler();
+        final int warning_val_hr=100;
         timer = new Timer();
         TimerTask doAsyncTask = new TimerTask() {
             @Override
@@ -178,19 +179,50 @@ public class Fragment_Main extends Fragment{
 
                             if (FirePlayers.getInstance().getTeamP()[0] != null) {
                                 m1.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY()));
+                                if(FirePlayers.getInstance().getTeamP()[0].gethRate() >= warning_val_hr){
+                                    m1.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
+                                }
+                                else{
+                                    m1.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
+                                }
                             }
                             if (FirePlayers.getInstance().getTeamP()[1] != null) {
                                 m2.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[1].getX(), FirePlayers.getInstance().getTeamP()[1].getY()));
+                                if(FirePlayers.getInstance().getTeamP()[1].gethRate() >= warning_val_hr){
+                                    m2.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
+                                }
+                                else{
+                                    m2.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
+                                }
                             }
                             if (FirePlayers.getInstance().getTeamP()[2] != null) {
                                 m3.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[2].getX(), FirePlayers.getInstance().getTeamP()[2].getY()));
+                                if(FirePlayers.getInstance().getTeamP()[2].gethRate() >= warning_val_hr){
+                                    m3.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
+                                }
+                                else{
+                                    m3.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
+                                }
                             }
                             if (FirePlayers.getInstance().getTeamP()[3] != null) {
                                 m4.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[3].getX(), FirePlayers.getInstance().getTeamP()[3].getY()));
+                                if(FirePlayers.getInstance().getTeamP()[3].gethRate() >= warning_val_hr){
+                                    m4.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
+                                }
+                                else{
+                                    m4.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
+                                }
                             }
                             if (FirePlayers.getInstance().getTeamP()[4] != null) {
                                 m5.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[4].getX(), FirePlayers.getInstance().getTeamP()[4].getY()));
+                                if(FirePlayers.getInstance().getTeamP()[4].gethRate() >= warning_val_hr){
+                                    m5.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
+                                }
+                                else{
+                                    m5.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
+                                }
                             }
+
                             //new AsynComp().execute();
 
                         }catch (Exception e){

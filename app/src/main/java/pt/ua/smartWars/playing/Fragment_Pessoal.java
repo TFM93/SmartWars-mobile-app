@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import pt.ua.smartWars.OnGameData.FirePlayers;
 import pt.ua.smartWars.R;
+import userData.userInfo;
 
 public class Fragment_Pessoal extends Fragment {
 
@@ -81,6 +83,7 @@ public class Fragment_Pessoal extends Fragment {
                     else
                         pulse.setTextColor(getResources().getColor(R.color.dark_green));
 
+                    FirePlayers.getInstance().setTeam_hr(userInfo.getInstance().getUid(),value);
                 }
 
 
