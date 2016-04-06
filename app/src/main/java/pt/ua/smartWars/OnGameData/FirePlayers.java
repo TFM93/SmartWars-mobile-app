@@ -68,12 +68,12 @@ public class FirePlayers {
         return this.team_pos;
     }
 
-    public void setTeam_pos(String player_id, double x, double y) {
+    public void setTeam_pos(String player_id, double x, double y, int hRate) {
         for(int i=0; i< this.team_pos.length;i++)
         {
             if(this.team_pos[i]==null)
             {
-                this.team_pos[i]=new Position(player_id,x,y);
+                this.team_pos[i]=new Position(player_id,x,y,hRate);
                 System.out.println("setted");
                 break;
             }
@@ -81,6 +81,24 @@ public class FirePlayers {
             {
                 this.team_pos[i].setX(x);
                 this.team_pos[i].setY(y);
+                break;
+            }
+            //else player does not exist
+        }
+    }
+
+    public void setTeam_hr(String player_id, int hRate) {
+        for(int i=0; i< this.team_pos.length;i++)
+        {
+            if(this.team_pos[i]==null)
+            {
+                this.team_pos[i]=new Position(player_id,0,0,hRate);
+                //System.out.println("setted");
+                break;
+            }
+            else if(this.team_pos[i].getpId().equals(player_id))
+            {
+                this.team_pos[i].sethRate(hRate);
                 break;
             }
             //else player does not exist
