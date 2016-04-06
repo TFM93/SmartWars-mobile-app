@@ -1,9 +1,11 @@
 package pt.ua.smartWars.menus;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import pt.ua.smartWars.OnGameData.FirePlayers;
 import pt.ua.smartWars.R;
+import pt.ua.smartWars.playing.Gaming;
 import userData.userInfo;
 
 public class NewGame extends AppCompatActivity {
@@ -39,23 +42,31 @@ public class NewGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game);
-        _goButton.setClickable(false);
+
         Firebase.setAndroidContext(this);
         ButterKnife.inject(this);
-
+        _goButton.setClickable(false);
         try {
             randomNum = "" + 1000 + (int)(Math.random() * 9999);
             createFirebaseGame(randomNum,"RED");
             generateQrCode(randomNum);
             _code_text.setText(randomNum);
             _goButton.setClickable(true);
+            _goButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i = new Intent(NewGame.this, Gaming.class);
+                    startActivity(i);
+                }
+            });
         } catch (WriterException e) {
             e.printStackTrace();
         }
     }
 
     private void createFirebaseGame(String randomNum,String team) {
-        String path = "https://paintmonitor.firebaseio.com/Game/" +randomNum+"/" +team+"/";
+        String path = "https://paintmonitor.firebaseio.com/Game/" +randomNum+"/" +team+"/"+userInfo.getInstance().getUid()+"/";
         Firebase ref = new Firebase(path);
         FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(),0,0);
         FirePlayers.getInstance().setTeam(team);

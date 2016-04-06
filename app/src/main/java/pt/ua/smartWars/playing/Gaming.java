@@ -1,5 +1,6 @@
 package pt.ua.smartWars.playing;
 
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,12 +19,33 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.kyleduo.switchbutton.SwitchButton;
 
-import Bio.Library.namespace.BioLib;
-import pt.ua.smartWars.R;
+import java.util.Iterator;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class Gaming extends AppCompatActivity {
+import Bio.Library.namespace.BioLib;
+import pt.ua.smartWars.OnGameData.FirePlayers;
+import pt.ua.smartWars.OnGameData.Position;
+import pt.ua.smartWars.R;
+import userData.userInfo;
+
+public class Gaming extends AppCompatActivity implements LocationListener {
+
+
+    private LocationManager locationManager;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -41,8 +63,14 @@ public class Gaming extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private BioLib lib;
-    private int dataFreq=0;
+    private int dataFreq = 0;
+    private Timer timer;
+    private TimerTask timerTask;
     private Fragment_Pessoal.DataListener mDataListener;
+    private GPSModule gps;
+    private Firebase ret_ref;//retrieve data ref
+    private GoogleMap mMap;
+    private Marker[] markeppp;
 
     //private DataReadFragment.DataListener mDataListener;
     //private ProfileFragment.OnProfileInteractionListener mProfileInteractionListener;
@@ -51,8 +79,58 @@ public class Gaming extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaming);
+        Firebase.setAndroidContext(this);
+        startTimer();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //create gps module
+        gps = new GPSModule(Gaming.this);
+        //retrieve data location
+        ret_ref = new Firebase("https://paintmonitor.firebaseio.com/Game/"+FirePlayers.getInstance().getMatch_id()+"/"+FirePlayers.getInstance().getTeam()+"/");
+        ret_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println("There are " + snapshot.getChildrenCount() + " players on team");
+                Iterator po = snapshot.getChildren().iterator();
+                while(po.hasNext())
+                {
+                    Object ops = po.next();
+                    DataSnapshot p = (DataSnapshot) ops;
+                    String pId="";
+                    String x="";
+                    String y="";
+                    Iterator s= p.getChildren().iterator();
+                    while(s.hasNext())
+                    {
+                        Object r = s.next();
+                        DataSnapshot sl = (DataSnapshot) r;
+                        if(sl.getKey().equals("pId"))
+                        {
+                            pId=sl.getValue().toString();
+                        }
+                        else if(sl.getKey().equals("x"))
+                        {
+                            x=sl.getValue().toString();
+                        }
+                        else if(sl.getKey().equals("y"))
+                            y=sl.getValue().toString();
+
+
+
+                    }
+                    //System.out.println(pId + "  x  "+ x + "    y  " + y);
+                    FirePlayers.getInstance().setTeam_pos(pId,Double.parseDouble(x),Double.parseDouble(y));
+                }
+
+
+                Log.d("RET","data changed");
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+            }});
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -60,12 +138,18 @@ public class Gaming extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        if (mViewPager != null) {
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+        }
 
         mTabLayout = (TabLayout) findViewById(R.id.tab1);
 
-        mTabLayout.setTabsFromPagerAdapter(mSectionsPagerAdapter);
-        mTabLayout.setupWithViewPager(mViewPager);
+        if (mTabLayout != null) {
+            mTabLayout.setTabsFromPagerAdapter(mSectionsPagerAdapter);
+        }
+        if (mTabLayout != null) {
+            mTabLayout.setupWithViewPager(mViewPager);
+        }
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
 
     }
@@ -104,7 +188,10 @@ public class Gaming extends AppCompatActivity {
 
         EditText address_dev = (EditText) findViewById(R.id.add_dev);
 
-        String address=address_dev.getText().toString();
+        String address= null;
+        if (address_dev != null) {
+            address = address_dev.getText().toString();
+        }
         System.out.println(address);
 
 
@@ -166,6 +253,134 @@ public class Gaming extends AppCompatActivity {
 
     public void setDataListener(Fragment_Pessoal.DataListener dataListener) {
         mDataListener = dataListener;
+    }
+
+    public void stoptimertask() {
+        //stop the timer, if it's not already null
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+    }
+
+    public void initializeTimerTask() {
+
+        timerTask = new TimerTask() {
+            public void run() {
+
+                //use a handler to run a toast that shows the current timestamp
+                handler.post(new Runnable() {
+                    public void run() {
+//                        //get the current timeStamp
+//                        Calendar calendar = Calendar.getInstance();
+//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
+//                        final String strDate = simpleDateFormat.format(calendar.getTime());
+//
+                            //get coordinates
+                        double latitude = gps.getLatitude();
+                        double longitude = gps.getLongitude();
+                        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude);
+
+//                        //show the toast
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(getApplicationContext(), "sending lat:"+ latitude + " long:" + longitude, duration);
+                        toast.show();
+                        Log.d("TIME","sending lat:"+ latitude + " long:" + longitude);
+                        String path = "https://paintmonitor.firebaseio.com/Game/" +FirePlayers.getInstance().getMatch_id()+"/" +FirePlayers.getInstance().getTeam()+"/"+userInfo.getInstance().getUid()+"/";
+                        Firebase ref = new Firebase(path);
+                        Log.d("POS", FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getX() + "  " + latitude);
+                        ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
+                        //updateMapMarkers();
+                    }
+                });
+            }
+        };
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        this.mMap = googleMap;
+        Position[] m = FirePlayers.getInstance().getTeamP();
+        this.markeppp = new Marker[7];
+        int i=0;
+        while(m[i] != null && i < m.length)
+        {
+            this.markeppp[i]= mMap.addMarker(new MarkerOptions().position(new LatLng(m[i].getX(), m[i].getY())));
+
+            i++;
+        }
+        this.mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(new LatLng(m[0].getX(), m[0].getY()), 11.0f);
+        mMap.animateCamera(yourLocation);
+    }
+//    private void updateMapMarkers() {
+//        Position[] m = FirePlayers.getInstance().getTeamP();
+//        int i=0;
+//        while(m[i] != null && i < m.length)
+//        {
+//            //mMap.addMarker(new MarkerOptions().position(new LatLng(m[i].getX(), m[i].getY())));
+//            if(this.markeppp[i] != null)
+//                this.markeppp[i].setPosition(  new LatLng(m[i].getX(), m[i].getY()));
+//            else
+//                this.markeppp[i]= mMap.addMarker(new MarkerOptions().position(new LatLng(m[i].getX(), m[i].getY())));
+//            i++;
+//        }
+//
+//    }
+
+//    public void animateMarker(final Marker marker, final LatLng toPosition,
+//                              final boolean hideMarker) {
+//        final Handler handler = new Handler();
+//        final long start = SystemClock.uptimeMillis();
+//        Projection proj = mGoogleMapObject.getProjection();
+//        Point startPoint = proj.toScreenLocation(marker.getPosition());
+//        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+//        final long duration = 500;
+//
+//        final Interpolator interpolator = new LinearInterpolator();
+//
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                long elapsed = SystemClock.uptimeMillis() - start;
+//                float t = interpolator.getInterpolation((float) elapsed
+//                        / duration);
+//                double lng = t * toPosition.longitude + (1 - t)
+//                        * startLatLng.longitude;
+//                double lat = t * toPosition.latitude + (1 - t)
+//                        * startLatLng.latitude;
+//                marker.setPosition(new LatLng(lat, lng));
+//
+//                if (t < 1.0) {
+//                    // Post again 16ms later.
+//                    handler.postDelayed(this, 16);
+//                } else {
+//                    if (hideMarker) {
+//                        marker.setVisible(false);
+//                    } else {
+//                        marker.setVisible(true);
+//                    }
+//                }
+//            }
+//        });
+//    }
+
+
+
+    @Override
+    public void onStop()
+    {
+        stoptimertask();
+        super.onStop();
+    }
+    public void startTimer() {
+
+        timer = new Timer();
+        //initialize the TimerTask's job
+        initializeTimerTask();
+        //schedule the timer, after the first 1000ms the TimerTask will run every 3000ms
+        timer.schedule(timerTask, 5000, 9000); //
     }
 
     /**
