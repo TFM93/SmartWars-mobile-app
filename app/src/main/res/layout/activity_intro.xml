@@ -17,7 +17,8 @@
     <FrameLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -75,7 +76,7 @@
                 android:id="@+id/profile_image"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
-                android:src="@drawable/socrates"
+                android:src="@drawable/user"
                 app:civ_border_width="2dp"
                 app:civ_border_color="#FF000000"
                 android:layout_gravity="center_horizontal"

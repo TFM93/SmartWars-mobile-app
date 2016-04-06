@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.kyleduo.switchbutton.SwitchButton;
 
@@ -114,11 +115,11 @@ public class Gaming extends AppCompatActivity {
 
             }catch (Exception e) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Connection failed!")
-                        .setNeutralButton("OK", null);
-                builder.create();
-                builder.show();
+                Toast.makeText(getBaseContext(), "Connection failed", Toast.LENGTH_LONG).show();
+                //AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                //builder.setMessage("Connection failed!").setNeutralButton("OK", null);
+               //builder.create();
+                //builder.show();
 
                 device_switch.setChecked(false);
             }
