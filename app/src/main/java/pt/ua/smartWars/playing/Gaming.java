@@ -108,6 +108,9 @@ public class Gaming extends AppCompatActivity {
                         }
                         else if(sl.getKey().equals("y"))
                             y=sl.getValue().toString();
+                        else if(sl.getKey().equals("hRate")){
+                            Log.d("HR",sl.getValue().toString());
+                            hRate=sl.getValue().toString();}
 
 
 
@@ -194,7 +197,7 @@ public class Gaming extends AppCompatActivity {
 
         String address = null;
         if (address_dev != null) {
-            address = address_dev.getText().toString();
+            address = "00:23:FE:00:0B:52";//address_dev.getText().toString();
         }
         System.out.println(address);
 

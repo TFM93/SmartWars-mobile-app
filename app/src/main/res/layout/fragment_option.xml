@@ -62,7 +62,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:hint="00:23:FE:00:08:71"
+                        android:hint="00:23:FE:00:0B:52"
                         android:inputType="textCapCharacters"
                         android:layout_alignParentLeft="true"/>
             </LinearLayout>
