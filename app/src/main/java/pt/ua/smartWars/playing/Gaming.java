@@ -93,6 +93,7 @@ public class Gaming extends AppCompatActivity {
                     String pId="";
                     String x="";
                     String y="";
+                    String hRate="";
                     Iterator s= p.getChildren().iterator();
                     while(s.hasNext())
                     {
@@ -108,12 +109,21 @@ public class Gaming extends AppCompatActivity {
                         }
                         else if(sl.getKey().equals("y"))
                             y=sl.getValue().toString();
+                        else if(sl.getKey().equals("hRate")){
+                            Log.d("HR",sl.getValue().toString());
+                            hRate=sl.getValue().toString();}
+
 
 
 
                     }
-                    //System.out.println(pId + "  x  "+ x + "    y  " + y);
-                    FirePlayers.getInstance().setTeam_pos(pId,Double.parseDouble(x),Double.parseDouble(y));
+                    System.out.println(pId + "  x  "+ x + "    y  " + y + "    hr: " + hRate);
+                    if(hRate.equals("")||hRate.equals("-.-"))
+                    {
+                        hRate="0";
+                    }
+                    FirePlayers.getInstance().setTeam_pos(pId,Double.parseDouble(x),Double.parseDouble(y),Integer.parseInt(hRate));
+                    FirePlayers.getInstance().setTeam_hr(pId,Integer.parseInt(hRate));
                 }
 
 
@@ -164,6 +174,7 @@ public class Gaming extends AppCompatActivity {
                     BioLib.Output out = (BioLib.Output) msg.obj;
                     Log.d("Battery", "" +out.battery);
                     Log.d("Pulse", "" + out.pulse);
+                    FirePlayers.getInstance().setTeam_hr(userInfo.getInstance().getUid(), out.pulse);
                     dataFreq++;
                     if(dataFreq==40) {
                         dataFreq=0;
@@ -274,7 +285,7 @@ public class Gaming extends AppCompatActivity {
                             //get coordinates
                         double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
-                        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude);
+                        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude,0);
 
 //                        //show the toast
                         int duration = Toast.LENGTH_SHORT;
