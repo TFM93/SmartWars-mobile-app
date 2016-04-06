@@ -11,54 +11,61 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout">
-
+        android:layout_margin="10dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Team Code: "
             android:id="@+id/textView3"
+            android:textSize="20dp"
             android:layout_below="@+id/linearLayout"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
-        <EditText
-            android:id="@+id/add_dev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:hint="00:23:FE:00:08:71"
-            android:inputType="textCapCharacters" />
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Connect"
-                android:textSize="20dp" />
+                android:layout_height="wrap_content" >
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Device:"
+                        android:textSize="20dp"
+                        android:layout_alignParentLeft="true" />
+
+                <EditText
+                        android:id="@+id/add_dev"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="00:23:FE:00:08:71"
+                        android:inputType="textCapCharacters"
+                        android:layout_alignParentLeft="true"/>
+            </LinearLayout>
 
             <com.kyleduo.switchbutton.SwitchButton
                 android:id="@+id/device_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:onClick="changeToOn"
-                android:paddingTop="10dp"
-                app:kswOnColor="@color/green"></com.kyleduo.switchbutton.SwitchButton>
-        </LinearLayout>
+                app:kswOnColor="@color/green"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="5dp" />
+
+
+        </RelativeLayout>
 
 
     </LinearLayout>
+
 
 </RelativeLayout>

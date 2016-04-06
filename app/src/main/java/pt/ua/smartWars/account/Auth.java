@@ -1,7 +1,6 @@
 package pt.ua.smartWars.account;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -31,8 +30,8 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import pt.ua.smartWars.menus.Intro;
 import pt.ua.smartWars.R;
+import pt.ua.smartWars.menus.Intro;
 import userData.userInfo;
 
 public class Auth extends AppCompatActivity {
@@ -146,11 +145,11 @@ public class Auth extends AppCompatActivity {
                         userInfo.getInstance().setLoggedInWith("MAILPW");
                         userInfo.getInstance().setUid(authData.getUid());
 
-                        Context context = getApplicationContext();
-                        CharSequence text = "LoggedIn successfully";
-                        int duration = Toast.LENGTH_LONG;
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
+                        //Context context = getApplicationContext();
+                        //CharSequence text = "LoggedIn successfully";
+                        //int duration = Toast.LENGTH_LONG;
+                        //Toast toast = Toast.makeText(context, text, duration);
+                        //toast.show();
 
                         Intent i = new Intent(Auth.this, Intro.class);
                         startActivity(i);
