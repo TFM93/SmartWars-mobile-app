@@ -23,13 +23,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.kyleduo.switchbutton.SwitchButton;
 
 import java.util.Iterator;
@@ -38,11 +33,10 @@ import java.util.TimerTask;
 
 import Bio.Library.namespace.BioLib;
 import pt.ua.smartWars.OnGameData.FirePlayers;
-import pt.ua.smartWars.OnGameData.Position;
 import pt.ua.smartWars.R;
 import userData.userInfo;
 
-public class Gaming extends AppCompatActivity implements LocationListener {
+public class Gaming extends AppCompatActivity {
 
 
     private LocationManager locationManager;
@@ -71,6 +65,7 @@ public class Gaming extends AppCompatActivity implements LocationListener {
     private Firebase ret_ref;//retrieve data ref
     private GoogleMap mMap;
     private Marker[] markeppp;
+    final Handler handler = new Handler();
 
     //private DataReadFragment.DataListener mDataListener;
     //private ProfileFragment.OnProfileInteractionListener mProfileInteractionListener;
@@ -290,30 +285,40 @@ public class Gaming extends AppCompatActivity implements LocationListener {
                         Firebase ref = new Firebase(path);
                         Log.d("POS", FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getX() + "  " + latitude);
                         ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
-                        //updateMapMarkers();
+
+
+
                     }
                 });
             }
         };
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap)
-    {
-        this.mMap = googleMap;
-        Position[] m = FirePlayers.getInstance().getTeamP();
-        this.markeppp = new Marker[7];
-        int i=0;
-        while(m[i] != null && i < m.length)
-        {
-            this.markeppp[i]= mMap.addMarker(new MarkerOptions().position(new LatLng(m[i].getX(), m[i].getY())));
 
-            i++;
-        }
-        this.mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(new LatLng(m[0].getX(), m[0].getY()), 11.0f);
-        mMap.animateCamera(yourLocation);
-    }
+
+//    @Override
+//    public void onMapReady(GoogleMap googleMap)
+//    {
+//        this.mMap = googleMap;
+//        Position[] m = FirePlayers.getInstance().getTeamP();
+//        this.markeppp = new Marker[7];
+//        int i=0;
+//        while(m[i] != null && i < m.length)
+//        {
+//            this.markeppp[i]= mMap.addMarker(new MarkerOptions().position(new LatLng(m[i].getX(), m[i].getY())));
+//
+//            i++;
+//        }
+//        this.mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+//        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(new LatLng(m[0].getX(), m[0].getY()), 11.0f);
+//        mMap.animateCamera(yourLocation);
+//    }
+
+
+
+
+
+
 //    private void updateMapMarkers() {
 //        Position[] m = FirePlayers.getInstance().getTeamP();
 //        int i=0;
