@@ -7,11 +7,21 @@ public class Position {
     private double x;
     private double y;
     private String pId;//player id
+    private int hRate;
 
-    public Position(String id, double x, double y){
+    public Position(String id, double x, double y, int hRate){
         this.x=x;
         this.y=y;
         this.pId =id;
+        this.hRate=hRate;
+    }
+
+    public int gethRate() {
+        return hRate;
+    }
+
+    public void sethRate(int hRate) {
+        this.hRate = hRate;
     }
 
     public double getY() {
