@@ -77,56 +77,56 @@ public class Gaming extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         startTimer();
 
+
         //create gps module
         gps = new GPSModule(Gaming.this);
         //retrieve data location
-        ret_ref = new Firebase("https://paintmonitor.firebaseio.com/Game/"+FirePlayers.getInstance().getMatch_id()+"/"+FirePlayers.getInstance().getTeam()+"/");
+        ret_ref = new Firebase("https://paintmonitor.firebaseio.com/Game/" + FirePlayers.getInstance().getMatch_id() + "/" + FirePlayers.getInstance().getTeam() + "/");
         ret_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 System.out.println("There are " + snapshot.getChildrenCount() + " players on team");
                 Iterator po = snapshot.getChildren().iterator();
-                while(po.hasNext())
-                {
+                while (po.hasNext()) {
                     Object ops = po.next();
                     DataSnapshot p = (DataSnapshot) ops;
-                    String pId="";
-                    String x="";
-                    String y="";
-                    Iterator s= p.getChildren().iterator();
-                    while(s.hasNext())
-                    {
+                    String pId = "";
+                    String x = "";
+                    String y = "";
+                    Iterator s = p.getChildren().iterator();
+                    while (s.hasNext()) {
                         Object r = s.next();
                         DataSnapshot sl = (DataSnapshot) r;
-                        if(sl.getKey().equals("pId"))
-                        {
-                            pId=sl.getValue().toString();
-                        }
-                        else if(sl.getKey().equals("x"))
-                        {
-                            x=sl.getValue().toString();
-                        }
-                        else if(sl.getKey().equals("y"))
-                            y=sl.getValue().toString();
-
+                        if (sl.getKey().equals("pId")) {
+                            pId = sl.getValue().toString();
+                        } else if (sl.getKey().equals("x")) {
+                            x = sl.getValue().toString();
+                        } else if (sl.getKey().equals("y"))
+                            y = sl.getValue().toString();
 
 
                     }
                     //System.out.println(pId + "  x  "+ x + "    y  " + y);
-                    FirePlayers.getInstance().setTeam_pos(pId,Double.parseDouble(x),Double.parseDouble(y));
+                    FirePlayers.getInstance().setTeam_pos(pId, Double.parseDouble(x), Double.parseDouble(y));
                 }
 
 
-                Log.d("RET","data changed");
+                Log.d("RET", "data changed");
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
                 System.out.println("The read failed: " + firebaseError.getMessage());
-            }});
+            }
+        });
 
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        if (FirePlayers.getInstance().getTeam().equals("RED")) {
+            assert toolbar != null;
+            toolbar.setBackgroundColor(getResources().getColor(R.color.dark_red));
+        }
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -149,24 +149,22 @@ public class Gaming extends AppCompatActivity {
 
     }
 
-    private final Handler dataHandler = new Handler(){
+    private final Handler dataHandler = new Handler() {
 
         @Override
-        public void handleMessage(Message msg)
-        {
+        public void handleMessage(Message msg) {
             Log.d("now", "yes");
-            switch (msg.what)
-            {
+            switch (msg.what) {
                 case BioLib.MESSAGE_READ:
-                    Log.d("RECEIVED: " ,""+ msg.arg1);
+                    Log.d("RECEIVED: ", "" + msg.arg1);
                     break;
                 case BioLib.MESSAGE_DATA_UPDATED:
                     BioLib.Output out = (BioLib.Output) msg.obj;
-                    Log.d("Battery", "" +out.battery);
+                    Log.d("Battery", "" + out.battery);
                     Log.d("Pulse", "" + out.pulse);
                     dataFreq++;
-                    if(dataFreq==40) {
-                        dataFreq=0;
+                    if (dataFreq == 40) {
+                        dataFreq = 0;
                         //new SendtoDBTask().execute("1", out.pulse + "", user.getId() + "");
                         mDataListener.updateBatteryText(out.battery);
                         mDataListener.updatePulseText(out.pulse);
@@ -177,36 +175,34 @@ public class Gaming extends AppCompatActivity {
     };
 
 
-
-    public void changeToOn(View view){
+    public void changeToOn(View view) {
         SwitchButton device_switch = (SwitchButton) findViewById(R.id.device_switch);
 
         EditText address_dev = (EditText) findViewById(R.id.add_dev);
 
-        String address= null;
+        String address = null;
         if (address_dev != null) {
             address = address_dev.getText().toString();
         }
         System.out.println(address);
 
 
-        if(!device_switch.isChecked()) {
+        if (!device_switch.isChecked()) {
             try {
                 lib = new BioLib(this, dataHandler);
                 lib.Connect(address, 5);
 
-            }catch (Exception e) {
+            } catch (Exception e) {
 
                 Toast.makeText(getBaseContext(), "Connection failed", Toast.LENGTH_LONG).show();
                 //AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 //builder.setMessage("Connection failed!").setNeutralButton("OK", null);
-               //builder.create();
+                //builder.create();
                 //builder.show();
 
                 device_switch.setChecked(false);
             }
-        }
-        else {
+        } else {
             try {
                 lib.Disconnect();
 
@@ -271,21 +267,20 @@ public class Gaming extends AppCompatActivity {
 //                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
 //                        final String strDate = simpleDateFormat.format(calendar.getTime());
 //
-                            //get coordinates
+                        //get coordinates
                         double latitude = gps.getLatitude();
                         double longitude = gps.getLongitude();
                         FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude);
 
 //                        //show the toast
                         int duration = Toast.LENGTH_SHORT;
-                        Toast toast = Toast.makeText(getApplicationContext(), "sending lat:"+ latitude + " long:" + longitude, duration);
-                        toast.show();
-                        Log.d("TIME","sending lat:"+ latitude + " long:" + longitude);
-                        String path = "https://paintmonitor.firebaseio.com/Game/" +FirePlayers.getInstance().getMatch_id()+"/" +FirePlayers.getInstance().getTeam()+"/"+userInfo.getInstance().getUid()+"/";
+                        //Toast toast = Toast.makeText(getApplicationContext(), "sending lat:"+ latitude + " long:" + longitude, duration);
+                        //toast.show();
+                        Log.d("TIME", "sending lat:" + latitude + " long:" + longitude);
+                        String path = "https://paintmonitor.firebaseio.com/Game/" + FirePlayers.getInstance().getMatch_id() + "/" + FirePlayers.getInstance().getTeam() + "/" + userInfo.getInstance().getUid() + "/";
                         Firebase ref = new Firebase(path);
                         Log.d("POS", FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getX() + "  " + latitude);
                         ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
-
 
 
                     }
@@ -293,7 +288,6 @@ public class Gaming extends AppCompatActivity {
             }
         };
     }
-
 
 
 //    @Override
@@ -313,10 +307,6 @@ public class Gaming extends AppCompatActivity {
 //        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(new LatLng(m[0].getX(), m[0].getY()), 11.0f);
 //        mMap.animateCamera(yourLocation);
 //    }
-
-
-
-
 
 
 //    private void updateMapMarkers() {
@@ -372,13 +362,12 @@ public class Gaming extends AppCompatActivity {
 //    }
 
 
-
     @Override
-    public void onStop()
-    {
+    public void onStop() {
         stoptimertask();
         super.onStop();
     }
+
     public void startTimer() {
 
         timer = new Timer();
@@ -444,10 +433,9 @@ public class Gaming extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            if (position== 0) {
+            if (position == 0) {
                 return Fragment_Main.newInstance();
-            }
-            else if (position== 1)
+            } else if (position == 1)
                 return Fragment_Pessoal.newInstance();
             else
                 return Fragment_Option.newInstance();

@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import pt.ua.smartWars.OnGameData.FirePlayers;
 import pt.ua.smartWars.R;
 
 
@@ -40,7 +42,13 @@ public class Fragment_Option extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_option, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_option, container, false);
+
+        EditText code_m = (EditText) v.findViewById(R.id.code_match);
+        code_m.setText(FirePlayers.getInstance().getMatch_id());
+
+        return v;
     }
 
     public Fragment_Option()

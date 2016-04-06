@@ -76,6 +76,11 @@ public class Fragment_Pessoal extends Fragment {
                 public void updatePulseText(int value) {
                     TextView pulse = (TextView) getView().findViewById(R.id.pulse);
                     pulse.setText(value + " BPM");
+                    if (value>190)
+                        pulse.setTextColor(getResources().getColor(R.color.dark_red));
+                    else
+                        pulse.setTextColor(getResources().getColor(R.color.dark_green));
+
                 }
 
 
