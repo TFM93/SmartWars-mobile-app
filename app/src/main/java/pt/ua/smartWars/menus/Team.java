@@ -78,7 +78,7 @@ public class Team extends AppCompatActivity{
 
                 //pathToFirebase = "https://paintmonitor.firebaseio.com/games/" + _code_editText.getText();
                 Log.d("ID",_code_editText.getText().toString());
-                //FirePlayers.getInstance().setMatch_id(_code_editText.getText().toString());
+                FirePlayers.getInstance().setMatch_id(_code_editText.getText().toString());
 
 
                 final ImageView iv = (ImageView) findViewById(R.id.imageView);
@@ -186,7 +186,7 @@ public class Team extends AppCompatActivity{
 
     private void addMeToGameFirebase() {
         Log.d("MATCH_ID",FirePlayers.getInstance().getMatch_id());
-        String path = "https://paintmonitor.firebaseio.com/Game/" +FirePlayers.getInstance().getMatch_id()+"/" +FirePlayers.getInstance().getTeam()+"/";
+        String path = "https://paintmonitor.firebaseio.com/Game/" +FirePlayers.getInstance().getMatch_id()+"/" +FirePlayers.getInstance().getTeam()+"/"+userInfo.getInstance().getUid()+"/";
         Firebase ref = new Firebase(path);
         FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), 0, 0);
         ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
@@ -200,6 +200,7 @@ public class Team extends AppCompatActivity{
             if (resultCode == RESULT_OK) {
                 String contents = data.getStringExtra("SCAN_RESULT");
                 _code_editText.setText(contents);
+                FirePlayers.getInstance().setMatch_id(contents);
 
                 Button button_verify = (Button) findViewById(R.id.verify);
                 button_verify.performClick();
