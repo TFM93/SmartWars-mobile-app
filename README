@@ -1,13 +1,15 @@
 SMART WARS PROJECT APP MOBILE
 
-There is some accounts already created that can be used as test, like:
-------------------------
-User: drcc20@gmail.com
-Pass: qwerty
-------------------------
-User: drcc65@hotmail.com
-Pass: qwerty
-------------------------
-
 Diogo Cardoso
 Tiago Magalhães
+
+NOTE:
+To run this application, must have google services installed on the device!
+For some reason, simulations with genymotion make the application crash on showing the map
+For an easy access we provide here a sample account, althout the user can create a new one
+
+USER:tiagoferreiramagalhaes@ua.pt
+PASSWORD:123456
+
+User: drcc20@gmail.com
+Pass: qwerty
