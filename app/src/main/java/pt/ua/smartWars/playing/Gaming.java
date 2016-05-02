@@ -80,7 +80,7 @@ public class Gaming extends AppCompatActivity {
         //create gps module
         gps = new GPSModule(Gaming.this);
         //retrieve data location
-        ret_ref = new Firebase("https://paintmonitor.firebaseio.com/Game/" + FirePlayers.getInstance().getMatch_id() + "/" + FirePlayers.getInstance().getTeam() + "/");
+        ret_ref = new Firebase("https://pei.firebaseio.com/Game/" + FirePlayers.getInstance().getMatch_id() + "/" + FirePlayers.getInstance().getTeam() + "/");
         ret_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -287,12 +287,8 @@ public class Gaming extends AppCompatActivity {
                         double longitude = gps.getLongitude();
                         FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude,0);
 
-//                        //show the toast
-                        int duration = Toast.LENGTH_SHORT;
-                        //Toast toast = Toast.makeText(getApplicationContext(), "sending lat:"+ latitude + " long:" + longitude, duration);
-                        //toast.show();
                         Log.d("TIME", "sending lat:" + latitude + " long:" + longitude);
-                        String path = "https://paintmonitor.firebaseio.com/Game/" + FirePlayers.getInstance().getMatch_id() + "/" + FirePlayers.getInstance().getTeam() + "/" + userInfo.getInstance().getUid() + "/";
+                        String path = "https://pei.firebaseio.com/Game/" + FirePlayers.getInstance().getMatch_id() + "/" + FirePlayers.getInstance().getTeam() + "/" + userInfo.getInstance().getUid() + "/";
                         Firebase ref = new Firebase(path);
                         Log.d("POS", FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getX() + "  " + latitude);
                         ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));

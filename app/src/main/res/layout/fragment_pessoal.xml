@@ -31,8 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Pulse"
-                    android:textSize="20dp"
-                    />
+                    android:textSize="20dp"/>
                 <EditText
                     android:id="@+id/pulse"
                     android:layout_width="wrap_content"
@@ -63,7 +62,14 @@
                     android:textIsSelectable="false" />
             </LinearLayout>
         </LinearLayout>
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/heart"
+            android:layout_gravity="center" />
     </LinearLayout>
+
 
 </FrameLayout>
 

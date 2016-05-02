@@ -3,7 +3,7 @@ package userData;
 import com.firebase.client.Firebase;
 
 /**
- * Created by Tiago on 17/03/2016.
+ * Created by drcc on 17/03/2016.
  */
 public class userInfo {
 
@@ -20,7 +20,7 @@ public class userInfo {
     private userInfo(){
         this.loggedIn=false;
         this.loggedInWith= logginTypes.NONE;
-        this.ref= new Firebase("https://paintmonitor.firebaseio.com");
+        this.ref= new Firebase("https://pei.firebaseio.com");
         this.uid = null;
     }
 

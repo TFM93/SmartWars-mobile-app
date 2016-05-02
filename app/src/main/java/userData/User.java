@@ -1,7 +1,5 @@
 package userData;
 
-import com.firebase.client.Firebase;
-
 public class User {
     private int birthYear;
     private String fullName;

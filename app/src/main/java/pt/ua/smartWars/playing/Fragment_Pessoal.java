@@ -1,6 +1,9 @@
 package pt.ua.smartWars.playing;
 
 import android.content.Context;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,7 +26,6 @@ public class Fragment_Pessoal extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,19 +39,19 @@ public class Fragment_Pessoal extends Fragment {
         return inflater.inflate(R.layout.fragment_pessoal, container, false);
     }
 
-    public Fragment_Pessoal()
-    {}
+    public Fragment_Pessoal() {
+    }
 
     public interface DataListener {
         public void updateBatteryText(int value);
+
         public void updatePulseText(int value);
         //public byte[] getAllBytes();
     }
 
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
 
 
@@ -78,14 +80,21 @@ public class Fragment_Pessoal extends Fragment {
                 public void updatePulseText(int value) {
                     TextView pulse = (TextView) getView().findViewById(R.id.pulse);
                     pulse.setText(value + " BPM");
-                    if (value>150)
+                    if (value > 150) {
+                        // sound of notification when received a pre-message
+                        try {
+                            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                            Ringtone r = RingtoneManager.getRingtone(getContext(), notification);
+                            r.play();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         pulse.setTextColor(getResources().getColor(R.color.dark_red));
-                    else
+                    } else
                         pulse.setTextColor(getResources().getColor(R.color.dark_green));
 
-                    FirePlayers.getInstance().setTeam_hr(userInfo.getInstance().getUid(),value);
+                    FirePlayers.getInstance().setTeam_hr(userInfo.getInstance().getUid(), value);
                 }
-
 
 
             });

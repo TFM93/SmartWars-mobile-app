@@ -28,7 +28,6 @@ public class Intro extends AppCompatActivity {
     Button _createMatch;
 
 
-    //paintmonitor
 
     /**
      * Request code for location permission request.
@@ -126,7 +125,7 @@ public class Intro extends AppCompatActivity {
 
 
         // Email do user com o login feito
-        Firebase myFirebaseRef = new Firebase("https://paintmonitor.firebaseio.com");
+        Firebase myFirebaseRef = new Firebase("https://pei.firebaseio.com");
         userLog = myFirebaseRef.getAuth().getUid();
 
         //final Button button = (Button) findViewById(R.id.button);

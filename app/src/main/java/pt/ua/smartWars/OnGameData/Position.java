@@ -1,7 +1,7 @@
 package pt.ua.smartWars.OnGameData;
 
 /**
- * Created by Tiago on 04/04/2016.
+ * Created by Drcc on 04/04/2016.
  */
 public class Position {
     private double x;

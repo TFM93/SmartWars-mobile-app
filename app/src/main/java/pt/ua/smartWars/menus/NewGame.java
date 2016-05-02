@@ -66,9 +66,9 @@ public class NewGame extends AppCompatActivity {
     }
 
     private void createFirebaseGame(String randomNum,String team) {
-        String path = "https://paintmonitor.firebaseio.com/Game/" +randomNum+"/" +team+"/"+userInfo.getInstance().getUid()+"/";
+        String path = "https://pei.firebaseio.com/Game/" +randomNum+"/" +team+"/"+userInfo.getInstance().getUid()+"/";
         Firebase ref = new Firebase(path);
-        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(),0,0,0);
+        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), 0, 0, 0);
         FirePlayers.getInstance().setTeam(team);
         FirePlayers.getInstance().setMatch_id(randomNum);
         ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));

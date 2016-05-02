@@ -27,7 +27,7 @@ import userData.userInfo;
  */
 public class Team extends AppCompatActivity{
 
-    //paintmonitor
+    //pei
 
     @InjectView(R.id.verify)
     Button _verify;
@@ -186,7 +186,7 @@ public class Team extends AppCompatActivity{
 
     private void addMeToGameFirebase() {
         Log.d("MATCH_ID",FirePlayers.getInstance().getMatch_id());
-        String path = "https://paintmonitor.firebaseio.com/Game/" +FirePlayers.getInstance().getMatch_id()+"/" +FirePlayers.getInstance().getTeam()+"/"+userInfo.getInstance().getUid()+"/";
+        String path = "https://pei.firebaseio.com/Game/" +FirePlayers.getInstance().getMatch_id()+"/" +FirePlayers.getInstance().getTeam()+"/"+userInfo.getInstance().getUid()+"/";
         Firebase ref = new Firebase(path);
         FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), 0, 0, 0);
         ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));

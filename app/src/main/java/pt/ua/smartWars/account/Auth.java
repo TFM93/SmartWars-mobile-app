@@ -205,7 +205,7 @@ public class Auth extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        Firebase myFirebaseRef = new Firebase("https://paintmonitor.firebaseio.com");
+        Firebase myFirebaseRef = new Firebase("https://pei.firebaseio.com");
         myFirebaseRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {

@@ -85,7 +85,7 @@ public class Register extends AppCompatActivity {
 
 
 
-        Firebase myFirebaseRef = new Firebase("https://paintmonitor.firebaseio.com");
+        Firebase myFirebaseRef = new Firebase("https://pei.firebaseio.com");
 
 
         myFirebaseRef.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
