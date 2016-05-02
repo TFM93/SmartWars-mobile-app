@@ -62,12 +62,11 @@ import userData.userInfo;
 public class Fragment_Main extends Fragment implements OnClickListener {
 
 
-
-    private Marker m1,m2,m3,m4,m5;
+    private Marker m1, m2, m3, m4, m5;
     private MapView mapView;
     private GoogleMap map;
     private CameraUpdate cameraUpdate;
-    Button pre_button,pre_button2,pre_button3;
+    Button pre_button, pre_button2, pre_button3;
 
     public MapView getMapView() {
         return mapView;
@@ -96,7 +95,6 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                 String message = msg.getData().getString("msg");
 
 
-
                 String[] arrayMsg = message.split(",");
 
                 // sound of notification when received a pre-message
@@ -112,17 +110,16 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                 // Vibrate for 500 milliseconds
                 v.vibrate(500);
 
-                cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(arrayMsg[1]),Double.parseDouble(arrayMsg[2])), 16);
-                map.animateCamera(cameraUpdate);
-                if(arrayMsg[0].equals("1")) {
-                    Toast.makeText(getActivity(), "FOLLOW HIM", Toast.LENGTH_SHORT).show();
-                }else if(arrayMsg[0].equals("2"))
-                {
-                    Toast.makeText(getActivity(), "GO GO GO", Toast.LENGTH_SHORT).show();
-                }
-                else if(arrayMsg[0].equals("3"))
-                {
-                    Toast.makeText(getActivity(), "HELP HIM", Toast.LENGTH_SHORT).show();
+                if (FirePlayers.getInstance().getTeam().equals(arrayMsg[1])) {
+                    cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(arrayMsg[2]), Double.parseDouble(arrayMsg[3])), 16);
+                    map.animateCamera(cameraUpdate);
+                    if (arrayMsg[0].equals("1")) {
+                        Toast.makeText(getActivity(), "FOLLOW HIM", Toast.LENGTH_SHORT).show();
+                    } else if (arrayMsg[0].equals("2")) {
+                        Toast.makeText(getActivity(), "GO GO GO", Toast.LENGTH_SHORT).show();
+                    } else if (arrayMsg[0].equals("3")) {
+                        Toast.makeText(getActivity(), "HELP HIM", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
 
@@ -137,28 +134,36 @@ public class Fragment_Main extends Fragment implements OnClickListener {
             @Override
             public void onClick(View arg0) {
                 String concat = "1,";
+                concat += FirePlayers.getInstance().getTeam() + ",";
                 concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getX() + ",";
-                concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getY();
+                concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getY() + ",";
+                concat += userInfo.getInstance().getUid();
                 publishMessage(concat);
-                //et.setText("");
+
             }
         });
         pre_button2.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 String concat = "2,";
+                concat += FirePlayers.getInstance().getTeam() + ",";
                 concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getX() + ",";
-                concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getY();
+                concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getY() + ",";
+                concat += userInfo.getInstance().getUid();
                 publishMessage(concat);
+
             }
         });
         pre_button3.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 String concat = "3,";
+                concat += FirePlayers.getInstance().getTeam() + ",";
                 concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getX() + ",";
-                concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getY();
+                concat += FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getY() + ",";
+                concat += userInfo.getInstance().getUid();
                 publishMessage(concat);
+
             }
         });
     }
@@ -224,7 +229,7 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                                 .position(new LatLng(FirePlayers.getInstance().getTeamP()[4].getX(), FirePlayers.getInstance().getTeamP()[4].getY())).title("Player5"));
                     }
 
-                    cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(40.633549,-8.652342), 16);
+                    cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY()), 16);
                     map.animateCamera(cameraUpdate);
                     map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
@@ -236,7 +241,8 @@ public class Fragment_Main extends Fragment implements OnClickListener {
             case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
                 Toast.makeText(getActivity(), "UPDATE REQUIRED", Toast.LENGTH_SHORT).show();
                 break;
-            default: Toast.makeText(getActivity(), GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity()), Toast.LENGTH_SHORT).show();
+            default:
+                Toast.makeText(getActivity(), GooglePlayServicesUtil.isGooglePlayServicesAvailable(getActivity()), Toast.LENGTH_SHORT).show();
         }
 
 
@@ -257,18 +263,15 @@ public class Fragment_Main extends Fragment implements OnClickListener {
 //        }).start();
 
 
-
-
-
-
         return v;
 
     }
+
     Timer timer;
 
-    public void callAsyncTask(){
+    public void callAsyncTask() {
         final Handler handler = new Handler();
-        final int warning_val_hr=150;
+        final int warning_val_hr = 150;
         timer = new Timer();
         TimerTask doAsyncTask = new TimerTask() {
             @Override
@@ -276,58 +279,61 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        try{
+                        try {
+
+
+                            Log.d("posss", "-" + FirePlayers.getInstance().getTeamP()[0].getX());
+                            Log.d("posss1", "-" + FirePlayers.getInstance().getTeamP()[1].getX());
+                            Log.d("posss2", "-" + FirePlayers.getInstance().getTeamP()[2].getX());
+                            Log.d("posss3", "-" + FirePlayers.getInstance().getTeamP()[3].getX());
+                            Log.d("posss4", "-" + FirePlayers.getInstance().getTeamP()[4].getX());
+
 
 
                             if (FirePlayers.getInstance().getTeamP()[0] != null) {
                                 m1.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY()));
-                                if(FirePlayers.getInstance().getTeamP()[0].gethRate() >= warning_val_hr){
+                                if (FirePlayers.getInstance().getTeamP()[0].gethRate() >= warning_val_hr) {
                                     m1.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
-                                }
-                                else{
+                                } else {
                                     m1.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
                                 }
                             }
                             if (FirePlayers.getInstance().getTeamP()[1] != null) {
                                 m2.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[1].getX(), FirePlayers.getInstance().getTeamP()[1].getY()));
-                                if(FirePlayers.getInstance().getTeamP()[1].gethRate() >= warning_val_hr){
+                                if (FirePlayers.getInstance().getTeamP()[1].gethRate() >= warning_val_hr) {
                                     m2.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
-                                }
-                                else{
+                                } else {
                                     m2.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
                                 }
                             }
                             if (FirePlayers.getInstance().getTeamP()[2] != null) {
                                 m3.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[2].getX(), FirePlayers.getInstance().getTeamP()[2].getY()));
-                                if(FirePlayers.getInstance().getTeamP()[2].gethRate() >= warning_val_hr){
+                                if (FirePlayers.getInstance().getTeamP()[2].gethRate() >= warning_val_hr) {
                                     m3.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
-                                }
-                                else{
+                                } else {
                                     m3.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
                                 }
                             }
                             if (FirePlayers.getInstance().getTeamP()[3] != null) {
                                 m4.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[3].getX(), FirePlayers.getInstance().getTeamP()[3].getY()));
-                                if(FirePlayers.getInstance().getTeamP()[3].gethRate() >= warning_val_hr){
+                                if (FirePlayers.getInstance().getTeamP()[3].gethRate() >= warning_val_hr) {
                                     m4.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
-                                }
-                                else{
+                                } else {
                                     m4.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
                                 }
                             }
                             if (FirePlayers.getInstance().getTeamP()[4] != null) {
                                 m5.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[4].getX(), FirePlayers.getInstance().getTeamP()[4].getY()));
-                                if(FirePlayers.getInstance().getTeamP()[4].gethRate() >= warning_val_hr){
+                                if (FirePlayers.getInstance().getTeamP()[4].gethRate() >= warning_val_hr) {
                                     m5.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
-                                }
-                                else{
+                                } else {
                                     m5.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
                                 }
                             }
 
                             //new AsynComp().execute();
 
-                        }catch (Exception e){
+                        } catch (Exception e) {
 
 
                         }
@@ -337,11 +343,9 @@ public class Fragment_Main extends Fragment implements OnClickListener {
             }
         };
 
-        timer.schedule(doAsyncTask, 0, 3000);
+        timer.schedule(doAsyncTask, 0, 5000);
 
     }
-
-
 
 
     @Override
@@ -356,12 +360,13 @@ public class Fragment_Main extends Fragment implements OnClickListener {
         mapView.onLowMemory();
     }
 
-    public Fragment_Main()
-    {}
+    public Fragment_Main() {
+    }
 
 
     Thread subscribeThread;
     Thread publishThread;
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -371,6 +376,7 @@ public class Fragment_Main extends Fragment implements OnClickListener {
     }
 
     private BlockingDeque<String> queue = new LinkedBlockingDeque<String>();
+
     void publishMessage(String message) {
         //Adds a message to internal blocking queue
         try {
@@ -428,8 +434,8 @@ public class Fragment_Main extends Fragment implements OnClickListener {
     }
 
 
-
     ConnectionFactory factory = new ConnectionFactory();
+
     private void setupConnectionFactory() {
         String uri = "amqp://alpsoxxu:M0gZxxSxI_Hm5qEfsZ1SXtvTJ65yFxlS@spotted-monkey.rmq.cloudamqp.com/alpsoxxu";
         try {
@@ -441,12 +447,11 @@ public class Fragment_Main extends Fragment implements OnClickListener {
     }
 
 
-    public void publishToAMQP()
-    {
+    public void publishToAMQP() {
         publishThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(true) {
+                while (true) {
                     try {
                         Connection connection = factory.newConnection();
                         Channel ch = connection.createChannel();
@@ -454,12 +459,12 @@ public class Fragment_Main extends Fragment implements OnClickListener {
 
                         while (true) {
                             String message = queue.takeFirst();
-                            try{
+                            try {
                                 ch.basicPublish("amq.fanout", "chat", null, message.getBytes());
                                 Log.d("", "[s] " + message);
                                 ch.waitForConfirmsOrDie();
-                            } catch (Exception e){
-                                Log.d("","[f] " + message);
+                            } catch (Exception e) {
+                                Log.d("", "[f] " + message);
                                 queue.putFirst(message);
                                 throw e;
                             }

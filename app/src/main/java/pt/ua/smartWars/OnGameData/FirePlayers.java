@@ -75,6 +75,7 @@ public class FirePlayers {
             } else if (this.team_pos[i].getpId().equals(player_id)) {
                 this.team_pos[i].setX(x);
                 this.team_pos[i].setY(y);
+                this.team_pos[i].sethRate(hRate);
                 break;
             }
             //else player does not exist
