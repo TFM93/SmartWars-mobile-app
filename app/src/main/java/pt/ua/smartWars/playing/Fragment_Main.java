@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdate;
@@ -111,7 +110,7 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                 v.vibrate(500);
 
                 if (FirePlayers.getInstance().getTeam().equals(arrayMsg[1])) {
-                    cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(arrayMsg[2]), Double.parseDouble(arrayMsg[3])), 16);
+                    cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(arrayMsg[2]), Double.parseDouble(arrayMsg[3])), 19);
                     map.animateCamera(cameraUpdate);
                     if (arrayMsg[0].equals("1")) {
                         Toast.makeText(getActivity(), "FOLLOW HIM", Toast.LENGTH_SHORT).show();
@@ -177,6 +176,7 @@ public class Fragment_Main extends Fragment implements OnClickListener {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         // Gets the MapView from the XML layout and creates it
 
+
         MapsInitializer.initialize(getActivity());
 
         pre_button = (Button) v.findViewById(R.id.button1);
@@ -201,37 +201,35 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                         m1 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
-                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY())).title("Player1"));
+                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY())).title(FirePlayers.getInstance().getTeamP()[0].gethRate() + " BPM"));
                     }
 
                     if (FirePlayers.getInstance().getTeamP()[1] != null) {
                         m2 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
-                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[1].getX(), FirePlayers.getInstance().getTeamP()[1].getY())).title("Player2"));
+                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[1].getX(), FirePlayers.getInstance().getTeamP()[1].getY())).title(FirePlayers.getInstance().getTeamP()[1].gethRate() + " BPM"));
                     }
                     if (FirePlayers.getInstance().getTeamP()[2] != null) {
                         m3 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
-                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[2].getX(), FirePlayers.getInstance().getTeamP()[2].getY())).title("Player3"));
+                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[2].getX(), FirePlayers.getInstance().getTeamP()[2].getY())).title(FirePlayers.getInstance().getTeamP()[2].gethRate() + " BPM"));
                     }
                     if (FirePlayers.getInstance().getTeamP()[3] != null) {
                         m4 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
-                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[3].getX(), FirePlayers.getInstance().getTeamP()[3].getY())).title("Player4"));
+                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[3].getX(), FirePlayers.getInstance().getTeamP()[3].getY())).title(FirePlayers.getInstance().getTeamP()[3].gethRate() + " BPM"));
                     }
                     if (FirePlayers.getInstance().getTeamP()[4] != null) {
                         m5 = map.addMarker(new MarkerOptions()
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.pait))
                                 .anchor(0.2f, 1.0f) // Anchors the marker on the bottom left
-                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[4].getX(), FirePlayers.getInstance().getTeamP()[4].getY())).title("Player5"));
+                                .position(new LatLng(FirePlayers.getInstance().getTeamP()[4].getX(), FirePlayers.getInstance().getTeamP()[4].getY())).title(FirePlayers.getInstance().getTeamP()[4].gethRate() + " BPM"));
                     }
 
-                    cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY()), 16);
-                    map.animateCamera(cameraUpdate);
-                    map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
 
                 }
                 break;
@@ -247,6 +245,10 @@ public class Fragment_Main extends Fragment implements OnClickListener {
 
 
         callAsyncTask();
+
+        cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY()), 19);
+        map.animateCamera(cameraUpdate);
+        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 //
 //        // Updates the location and zoom of the MapView
 //        new Thread(new Runnable(){
@@ -282,16 +284,10 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                         try {
 
 
-                            Log.d("posss", "-" + FirePlayers.getInstance().getTeamP()[0].getX());
-                            Log.d("posss1", "-" + FirePlayers.getInstance().getTeamP()[1].getX());
-                            Log.d("posss2", "-" + FirePlayers.getInstance().getTeamP()[2].getX());
-                            Log.d("posss3", "-" + FirePlayers.getInstance().getTeamP()[3].getX());
-                            Log.d("posss4", "-" + FirePlayers.getInstance().getTeamP()[4].getX());
-
-
 
                             if (FirePlayers.getInstance().getTeamP()[0] != null) {
                                 m1.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[0].getX(), FirePlayers.getInstance().getTeamP()[0].getY()));
+                                m1.setTitle(FirePlayers.getInstance().getTeamP()[0].gethRate() + " BPM");
                                 if (FirePlayers.getInstance().getTeamP()[0].gethRate() >= warning_val_hr) {
                                     m1.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
                                 } else {
@@ -300,14 +296,17 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                             }
                             if (FirePlayers.getInstance().getTeamP()[1] != null) {
                                 m2.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[1].getX(), FirePlayers.getInstance().getTeamP()[1].getY()));
+                                m2.setTitle(FirePlayers.getInstance().getTeamP()[1].gethRate() + " BPM");
                                 if (FirePlayers.getInstance().getTeamP()[1].gethRate() >= warning_val_hr) {
                                     m2.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
+
                                 } else {
                                     m2.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait));
                                 }
                             }
                             if (FirePlayers.getInstance().getTeamP()[2] != null) {
                                 m3.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[2].getX(), FirePlayers.getInstance().getTeamP()[2].getY()));
+                                m3.setTitle(FirePlayers.getInstance().getTeamP()[2].gethRate() + " BPM");
                                 if (FirePlayers.getInstance().getTeamP()[2].gethRate() >= warning_val_hr) {
                                     m3.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
                                 } else {
@@ -316,6 +315,7 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                             }
                             if (FirePlayers.getInstance().getTeamP()[3] != null) {
                                 m4.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[3].getX(), FirePlayers.getInstance().getTeamP()[3].getY()));
+                                m4.setTitle(FirePlayers.getInstance().getTeamP()[3].gethRate() + " BPM");
                                 if (FirePlayers.getInstance().getTeamP()[3].gethRate() >= warning_val_hr) {
                                     m4.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
                                 } else {
@@ -324,6 +324,7 @@ public class Fragment_Main extends Fragment implements OnClickListener {
                             }
                             if (FirePlayers.getInstance().getTeamP()[4] != null) {
                                 m5.setPosition(new LatLng(FirePlayers.getInstance().getTeamP()[4].getX(), FirePlayers.getInstance().getTeamP()[4].getY()));
+                                m5.setTitle(FirePlayers.getInstance().getTeamP()[4].gethRate() + " BPM");
                                 if (FirePlayers.getInstance().getTeamP()[4].gethRate() >= warning_val_hr) {
                                     m5.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.pait_red));
                                 } else {
@@ -335,7 +336,7 @@ public class Fragment_Main extends Fragment implements OnClickListener {
 
                         } catch (Exception e) {
 
-
+                            System.out.println("Erro crl"  + e.toString());
                         }
 
                     }
@@ -343,7 +344,7 @@ public class Fragment_Main extends Fragment implements OnClickListener {
             }
         };
 
-        timer.schedule(doAsyncTask, 0, 5000);
+        timer.schedule(doAsyncTask, 0, 3000);
 
     }
 

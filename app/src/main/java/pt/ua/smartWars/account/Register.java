@@ -120,7 +120,9 @@ public class Register extends AppCompatActivity {
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        finish();
+        Toast.makeText(getBaseContext(), "Registed!", Toast.LENGTH_LONG).show();
+        Intent i = new Intent(Register.this, Auth.class);
+        startActivity(i);
     }
 
     public void onSignupFailed() {

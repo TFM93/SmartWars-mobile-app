@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+//import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.FacebookSdk;
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import pt.ua.smartWars.R;
 import pt.ua.smartWars.account.Auth;
 import userData.userInfo;
@@ -28,13 +30,6 @@ public class Intro extends AppCompatActivity {
     Button _createMatch;
 
 
-
-    /**
-     * Request code for location permission request.
-     *
-     * @see #onRequestPermissionsResult(int, String[], int[])
-     */
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     /**
      * Flag indicating whether a requested permission has been denied after returning in
@@ -130,11 +125,14 @@ public class Intro extends AppCompatActivity {
 
         //final Button button = (Button) findViewById(R.id.button);
         //final Button button2 = (Button) findViewById(R.id.button2);
-        //final Button button3 = (Button) findViewById(R.id.button3);
+
+        CircleImageView imageView = (CircleImageView) findViewById(R.id.profile_image);
+
         final TextView tv1 = (TextView) findViewById(R.id.textView);
 
-        //tv1.setText(myFirebaseRef.getAuth().getProviderData().get("email").toString());
 
+        //Glide.with(this).load(myFirebaseRef.getAuth().getProviderData().get("profileImageURL")).into(imageView);
+        tv1.setText(myFirebaseRef.getAuth().getProviderData().get("email").toString());
 
         //final LinearLayout LL1 = (LinearLayout) findViewById(R.id.linearLayout1);
 

@@ -4,6 +4,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.RemoteException;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,10 +24,15 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.Marker;
 import com.kyleduo.switchbutton.SwitchButton;
 
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
+
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,7 +42,7 @@ import pt.ua.smartWars.OnGameData.FirePlayers;
 import pt.ua.smartWars.R;
 import userData.userInfo;
 
-public class Gaming extends AppCompatActivity {
+public class Gaming extends AppCompatActivity implements BeaconConsumer {
 
 
     private LocationManager locationManager;
@@ -63,8 +69,8 @@ public class Gaming extends AppCompatActivity {
     private Fragment_Pessoal.DataListener mDataListener;
     private GPSModule gps;
     private Firebase ret_ref;//retrieve data ref
-    private GoogleMap mMap;
-    private Marker[] markeppp;
+    protected static final String TAG = "Beacon";
+    private BeaconManager beaconManager;
     final Handler handler = new Handler();
 
     //private DataReadFragment.DataListener mDataListener;
@@ -75,8 +81,11 @@ public class Gaming extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gaming);
         Firebase.setAndroidContext(this);
+
+
         startTimer();
 
+        Log.d("Passs2","aquuii");
         //create gps module
         gps = new GPSModule(Gaming.this);
         //retrieve data location
@@ -115,7 +124,6 @@ public class Gaming extends AppCompatActivity {
 
 
                     }
-                    System.out.println(pId + "  x  "+ x + "    y  " + y + "    hr: " + hRate);
                     if(hRate.equals("")||hRate.equals("-.-"))
                     {
                         hRate="0";
@@ -161,7 +169,60 @@ public class Gaming extends AppCompatActivity {
         }
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
 
+
+
+        // ABOUT BEACON
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        // To detect proprietary beacons, you must add a line like below corresponding to your beacon
+        // type.  Do a web search for "setBeaconLayout" to get the proper expression.
+        beaconManager.getBeaconParsers().add(new BeaconParser().
+                setBeaconLayout("s:0-1=feaa,m:2-2=00,p:3-3:-41,i:4-13,i:14-19"));
+        beaconManager.bind(this);
+
+        // BLUETOOTH TO BEACON
+
+        /*
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter.disable()) {
+            mBluetoothAdapter.enable();
+            Toast toast = Toast.makeText(getApplicationContext(), "Bluetooth Enable", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        */
     }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        beaconManager.unbind(this);
+    }
+
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.setRangeNotifier(new RangeNotifier() {
+            @Override
+            public void didRangeBeaconsInRegion(final Collection<Beacon> beacons, org.altbeacon.beacon.Region region) {
+
+                Log.i(TAG, "PASSA AQUI");
+
+
+                if (beacons.size() > 0) {
+
+                    Log.i(TAG, "DISTANCE= " + beacons.iterator().next().getDistance() + " meters.");
+                    Log.i(TAG, "UUID= " + beacons.iterator().next().getId1());
+
+
+                }
+            }
+        });
+
+
+        try {
+            beaconManager.startRangingBeaconsInRegion(new org.altbeacon.beacon.Region("myRangingUniqueId", null, null, null));
+        } catch (RemoteException e) {    }
+    }
+
 
     private final Handler dataHandler = new Handler() {
 
@@ -261,139 +322,47 @@ public class Gaming extends AppCompatActivity {
         mDataListener = dataListener;
     }
 
-    public void stoptimertask() {
-        //stop the timer, if it's not already null
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-    }
 
-    public void initializeTimerTask() {
 
-        timerTask = new TimerTask() {
+
+    public void startTimer() {
+        final Handler handler = new Handler();
+        timer = new Timer();
+        TimerTask doAsyncTask = new TimerTask() {
+            @Override
             public void run() {
-
-                //use a handler to run a toast that shows the current timestamp
                 handler.post(new Runnable() {
+                    @Override
                     public void run() {
-//                        //get the current timeStamp
-//                        Calendar calendar = Calendar.getInstance();
-//                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MMMM:yyyy HH:mm:ss a");
-//                        final String strDate = simpleDateFormat.format(calendar.getTime());
-//
-                        //get coordinates
-                        double latitude = gps.getLatitude();
-                        double longitude = gps.getLongitude();
-                        FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude,0);
-
-                        Log.d("TIME", "sending lat:" + latitude + " long:" + longitude);
-                        String path = "https://pei.firebaseio.com/Game/" + FirePlayers.getInstance().getMatch_id() + "/" + FirePlayers.getInstance().getTeam() + "/" + userInfo.getInstance().getUid() + "/";
-                        Firebase ref = new Firebase(path);
-                        Log.d("POS", FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()).getX() + "  " + latitude);
-                        ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
+                        try {
 
 
+                            //get coordinates
+                            double latitude = gps.getLatitude();
+                            double longitude = gps.getLongitude();
+                            FirePlayers.getInstance().setTeam_pos(userInfo.getInstance().getUid(), latitude, longitude,0);
+
+                            Log.d("TIME", "sending lat:" + latitude + " long:" + longitude);
+                            String path = "https://pei.firebaseio.com/Game/" + FirePlayers.getInstance().getMatch_id() + "/" + FirePlayers.getInstance().getTeam() + "/" + userInfo.getInstance().getUid() + "/";
+                            Log.d("PATH",path);
+                            Firebase ref = new Firebase(path);
+                            ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
+
+
+                        } catch (Exception e) {
+
+                            System.out.println("Erro crl"  + e.toString());
+                        }
 
                     }
                 });
             }
         };
+
+        timer.schedule(doAsyncTask, 0, 3000);
+
     }
 
-
-
-//    @Override
-//    public void onMapReady(GoogleMap googleMap)
-//    {
-//        this.mMap = googleMap;
-//        Position[] m = FirePlayers.getInstance().getTeamP();
-//        this.markeppp = new Marker[7];
-//        int i=0;
-//        while(m[i] != null && i < m.length)
-//        {
-//            this.markeppp[i]= mMap.addMarker(new MarkerOptions().position(new LatLng(m[i].getX(), m[i].getY())));
-//
-//            i++;
-//        }
-//        this.mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-//        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(new LatLng(m[0].getX(), m[0].getY()), 11.0f);
-//        mMap.animateCamera(yourLocation);
-//    }
-
-
-
-
-
-
-//    private void updateMapMarkers() {
-//        Position[] m = FirePlayers.getInstance().getTeamP();
-//        int i=0;
-//        while(m[i] != null && i < m.length)
-//        {
-//            //mMap.addMarker(new MarkerOptions().position(new LatLng(m[i].getX(), m[i].getY())));
-//            if(this.markeppp[i] != null)
-//                this.markeppp[i].setPosition(  new LatLng(m[i].getX(), m[i].getY()));
-//            else
-//                this.markeppp[i]= mMap.addMarker(new MarkerOptions().position(new LatLng(m[i].getX(), m[i].getY())));
-//            i++;
-//        }
-//
-//    }
-
-//    public void animateMarker(final Marker marker, final LatLng toPosition,
-//                              final boolean hideMarker) {
-//        final Handler handler = new Handler();
-//        final long start = SystemClock.uptimeMillis();
-//        Projection proj = mGoogleMapObject.getProjection();
-//        Point startPoint = proj.toScreenLocation(marker.getPosition());
-//        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
-//        final long duration = 500;
-//
-//        final Interpolator interpolator = new LinearInterpolator();
-//
-//        handler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                long elapsed = SystemClock.uptimeMillis() - start;
-//                float t = interpolator.getInterpolation((float) elapsed
-//                        / duration);
-//                double lng = t * toPosition.longitude + (1 - t)
-//                        * startLatLng.longitude;
-//                double lat = t * toPosition.latitude + (1 - t)
-//                        * startLatLng.latitude;
-//                marker.setPosition(new LatLng(lat, lng));
-//
-//                if (t < 1.0) {
-//                    // Post again 16ms later.
-//                    handler.postDelayed(this, 16);
-//                } else {
-//                    if (hideMarker) {
-//                        marker.setVisible(false);
-//                    } else {
-//                        marker.setVisible(true);
-//                    }
-//                }
-//            }
-//        });
-//    }
-
-
-
-    @Override
-    public void onStop()
-    {
-        stoptimertask();
-        super.onStop();
-    }
-    public void startTimer() {
-
-        timer = new Timer();
-        //initialize the TimerTask's job
-        initializeTimerTask();
-        //schedule the timer, after the first 1000ms the TimerTask will run every 3000ms
-        timer.schedule(timerTask, 5000, 9000); //
-    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -419,21 +388,6 @@ public class Gaming extends AppCompatActivity {
             fragment.setArguments(args);
             return fragment;
         }
-
-
-        /*
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-
-            View rootView = inflater.inflate(R.layout.fragment_pessoal, container, false);
-
-            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-        */
     }
 
 

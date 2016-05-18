@@ -134,10 +134,13 @@ public class GPSModule extends AppCompatActivity implements LocationListener {
 
 
     public Double getLatitude(){
+
+        getLocation();
         return this.latitude;
     }
 
     public Double getLongitude(){
+        getLocation();
         return this.longitude;
     }
 

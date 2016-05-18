@@ -47,7 +47,7 @@ public class NewGame extends AppCompatActivity {
         ButterKnife.inject(this);
         _goButton.setClickable(false);
         try {
-            randomNum = "" + 1000 + (int)(Math.random() * 9999);
+            randomNum = "" + 1 + (int)(Math.random() * 9999);
             createFirebaseGame(randomNum,"RED");
             generateQrCode(randomNum);
             _code_text.setText(randomNum);
@@ -73,7 +73,12 @@ public class NewGame extends AppCompatActivity {
         FirePlayers.getInstance().setMatch_id(randomNum);
         ref.setValue(FirePlayers.getInstance().getTeam_pos(userInfo.getInstance().getUid()));
 
+        //create the flag on databse
+        String path2 = "https://pei.firebaseio.com/Game/" +randomNum+"/flag/";
+        Firebase ref2 = new Firebase(path2);
+        ref2.setValue("0");
     }
+
 
 
     public void generateQrCode(String myCodeText) throws WriterException {

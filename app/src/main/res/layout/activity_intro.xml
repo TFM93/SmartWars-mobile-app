@@ -89,7 +89,7 @@
                 android:id="@+id/textView"
                 android:layout_gravity="center_horizontal"
                 android:textSize="18dp"
-                android:text="Socrates"
+                android:text="Player"
                 android:textStyle="bold"
                 android:textIsSelectable="false" />
         </LinearLayout>

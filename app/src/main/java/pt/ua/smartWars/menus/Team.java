@@ -67,45 +67,50 @@ public class Team extends AppCompatActivity{
 */
 
 
-
         _verify.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                _linearLayout1.setVisibility(View.VISIBLE);
-                _imageLogo.setVisibility(View.VISIBLE);
+
+               if (!_code_editText.getText().toString().equals(""))
+                {
+
+                    _linearLayout1.setVisibility(View.VISIBLE);
+                    _imageLogo.setVisibility(View.VISIBLE);
 
 
-                //pathToFirebase = "https://paintmonitor.firebaseio.com/games/" + _code_editText.getText();
-                Log.d("ID",_code_editText.getText().toString());
-                FirePlayers.getInstance().setMatch_id(_code_editText.getText().toString());
+                    //pathToFirebase = "https://paintmonitor.firebaseio.com/games/" + _code_editText.getText();
+                    FirePlayers.getInstance().setMatch_id(_code_editText.getText().toString());
 
 
-                final ImageView iv = (ImageView) findViewById(R.id.imageView);
-                final Animation an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate);
-                //final Animation an2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.abc_fade_out);
+                    final ImageView iv = (ImageView) findViewById(R.id.imageView);
+                    final Animation an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate);
+                    //final Animation an2 = AnimationUtils.loadAnimation(getBaseContext(),R.anim.abc_fade_out);
 
-                iv.startAnimation(an);
-                an.setAnimationListener(new Animation.AnimationListener() {
+                    iv.startAnimation(an);
+                    an.setAnimationListener(new Animation.AnimationListener() {
 
-                    @Override
-                    public void onAnimationStart(Animation animation) {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        iv.startAnimation(an);
-                        //finish();
-                        //Intent i = new Intent(SplashActivity.this, Auth.class);
-                        //startActivity(i);
-                    }
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            iv.startAnimation(an);
+                            //finish();
+                            //Intent i = new Intent(SplashActivity.this, Auth.class);
+                            //startActivity(i);
+                        }
 
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
 
-                    }
-                });
+                        }
+                    });
+
+                }
+
             }
         });
 
@@ -116,14 +121,7 @@ public class Team extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-//                Firebase myFirebaseRef = new Firebase(pathToFirebase  + "/red");
-//                userLog = myFirebaseRef.getAuth().getUid();
-//                Firebase postRef = myFirebaseRef.child(userLog);
-//                Map<String, Object> coordinates = new HashMap<String, Object>();
-//                coordinates.put("heartRate", "85");
-//                coordinates.put("lat", 40.6334472);
-//                coordinates.put("lng", -8.6524200);
-//                postRef.updateChildren(coordinates);
+
                   FirePlayers.getInstance().setTeam("RED");
                   addMeToGameFirebase();
                 // Start the Signup activity
@@ -140,14 +138,6 @@ public class Team extends AppCompatActivity{
             @Override
             public void onClick(View v) {
 
-//                Firebase myFirebaseRef = new Firebase(pathToFirebase + "/blue");
-//                userLog = myFirebaseRef.getAuth().getUid();
-//                Firebase postRef = myFirebaseRef.child(userLog);
-//                Map<String, Object> coordinates = new HashMap<String, Object>();
-//                coordinates.put("heartRate", "95");
-//                coordinates.put("lat", 40.6336472);
-//                coordinates.put("lng", -8.6523200);
-//                postRef.updateChildren(coordinates);
                 FirePlayers.getInstance().setTeam("BLUE");
                 addMeToGameFirebase();
 
